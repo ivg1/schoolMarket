@@ -5,8 +5,6 @@ I made this platform to make it easier for students to trade things in their sch
 
 *Project is still in development.*
 
-(i wrote this entire readme MYSELF, i used the readme from https://github.com/hackclub/hackatime-desktop as inspiration!) I SWEAR i didnt use ai here, it doesnt even know what i wrote. i spent an entire car ride perfecting this and you believe its ai :(
-
 ## Features
 This project has multiple features:
 - Listings displays
