@@ -13,16 +13,16 @@ export default function RelationToSchool() {
                     <div className="flex flex-col gap-8 md:px-10 max-w-300">
                         <div className="text-left">
                             <p className="text-xl mb-8">
-                                The Heritage Market (HM) is a platform created by students designed to help members of the school to buy/sell/trade goods and services.
+                                School Market (SM) is a platform made to help members of schools to buy/sell/trade goods and services.
                             </p>
                             <p className="text-xl mb-8">
-                                HM is not owned, operated, sponsored, or officially affiliated with the school, or its staff unless explicitly stated otherwise in the terms of service and privacy policy.
+                                SM is not owned, operated, sponsored, or affiliated with any school.
                             </p>
                             <p className="text-xl mb-8">
-                                While HM is designed to be used by students from the school, it operated independently. However, users are expected to follow all school rules that apply to the content of this platform, as stated in the terms of service.
+                                While SM is not operated by any school, users are expected to follow common school rules that apply to the content of SM, as stated in the terms of service.
                             </p>
                             <p className="text-xl mb-8">
-                                If HM receives requests or guidance from the school administration regarding safety or policy compliance, HM administrators may take appropriate action, including removing specific content.
+                                If SM receives requests from schools regarding safety or policy compliance, SM administrators may take appropriate action, such as removing and banning specific content and users.
                             </p>
                         </div>
                     </div>

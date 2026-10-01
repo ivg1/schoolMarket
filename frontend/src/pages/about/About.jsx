@@ -11,15 +11,15 @@ export default function About() {
                             <span className="m-0 text-[12px]">(What this is)</span>
                         </h1>
                     </div>
-                    <div className="flex flex-col gap-8 max-w-300">
-                        <div className="text-center">
-                            <p className="text-2xl mb-20">
-                                The Heritage Market (HM) is a platform developed with the aim to make it <span className="text-red-700">easier than ever</span> for students to put their goods or services for sale, and/or search for what they need.
+                    <div className="flex flex-col ">
+                        <div className="flex flex-col max-w-300">
+                            <p className="text-2xl mb-10">
+                                The School Market (SM) is a platform developed with the aim to make it <span className="text-red-700">easier</span> for students to show their goods or services, and/or search for what they need.
                             </p>
-                            <p className="text-2xl mb-5">
-                                HM provides everything students need to begin using this platform, at <span className="text-red-700">zero cost</span>:
+                            <p className="text-2xl">
+                                SM provides everything students need to begin using this platform, at <span className="text-red-700">zero cost</span>:
                             </p>
-                            <p className="text-xl">
+                            <p className="text-lg">
                                 A working listings system, accounts system, built-in messenger (soon), and statistics (soon).
                             </p>
                         </div>
@@ -49,7 +49,7 @@ export default function About() {
             </div>
             {/*
             <p className="my-10 text-center">
-                HM is fully <Link className="text-red-600 hover:underline" to="https://github.com/ivg1/theHeritageMarket/">opensource</Link>
+                SM is fully <Link className="text-red-600 hover:underline" to="https://github.com/ivg1/theHeritageMarket/">opensource</Link>
             </p>
             */}
         </div>

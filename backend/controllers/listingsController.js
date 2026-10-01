@@ -104,6 +104,8 @@ const updateListing_post = async (req, res) => {
         if (phone_show !== undefined) {
             listingChanges.push(await Listings.update.phone_show(phone_show, id));
         }
+
+        await Listings.update.awaiting_moderation(true, id);
         
 
         console.log("listing updated");

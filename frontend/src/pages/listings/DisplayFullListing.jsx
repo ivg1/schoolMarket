@@ -103,7 +103,7 @@ export default function DisplayFullListing() {
 		}
 
 		//phone validation
-        const phone = formValues.seller_phone?.trim();
+        const phone = (formValues.seller_phone !== "(not given)" ? formValues.seller_phone?.trim() : false);
         if (phone) {
             const phoneRegex = /^\+?[1-9]\d{7,14}$/;
 
@@ -168,15 +168,15 @@ export default function DisplayFullListing() {
 			const toSend = {
 				id: Number(listing.id),
 				seller_id: Number(listing.seller_id),
-
+				
 				title: formValues.title,
 				price: formValues.price,
 				negotiable: formValues.negotiable,
 				description: formValues.description,
-				seller_email: formValues.seller_email,
-				seller_phone: formValues.seller_phone,
-				email_show: formValues.email_show,
-				phone_show: formValues.phone_show
+				seller_email: formValues.seller_email !== "" ? formValues.seller_email : "(not given)",
+				seller_phone: formValues.seller_phone !== "" ? formValues.seller_phone : "(not given)",
+				email_show: (formValues.seller_email !== "(not given)" || formValues.seller_email !== "") ? formValues.email_show : false,
+				phone_show: (formValues.seller_phone !== "(not given)" || formValues.seller_phone !== "") ? formValues.phone_show : false,
 			}
 
 			const response = await Server.listings.update(toSend);
@@ -192,7 +192,7 @@ export default function DisplayFullListing() {
 		}
 	}
 
-	console.log(listing);
+	//console.log(formValues);
 
 	//moderator stuff
 	const handleReject = async (id) => {
@@ -421,16 +421,14 @@ export default function DisplayFullListing() {
 										<div className="contact-card bg-red-700 dark:bg-red-900 text-white xl:w-1/2 w-full min-h-fit rounded-2xl overflow-x-hidden">
 											<div className="min-w-full min-h-full rounded-2xl p-3">
 												<h1 className="text-xl font-bold">Email:</h1>
-												{mod && (
-													<TextInput id="email" name="email" value={formValues.seller_email || "{not given}"} 
-														onChange={(e) => {
-															setFormValues({
-																...formValues,
-																seller_email: e.target.value
-															});
-														}}
-													/>
-												)}
+												<TextInput id="email" name="email" value={formValues.seller_email || ""} 
+													onChange={(e) => {
+														setFormValues({
+															...formValues,
+															seller_email: e.target.value
+														});
+													}}
+												/>
 											</div>
 											<div className="flex items-center gap-1 text-xl pl-4 mb-4">
 												<Checkbox color="red" id="showEmail" name="showEmail" checked={formValues.email_show} 
@@ -447,17 +445,14 @@ export default function DisplayFullListing() {
 										<div className="contact-card bg-green-700 dark:bg-green-900 text-white xl:w-1/2 w-full min-h-fit rounded-2xl overflow-x-hidden">
 											<div className="min-w-full min-h-full rounded-2xl p-3">
 												<h1 className="text-xl font-bold">Phone number:</h1>
-												{/* later make only mods allowed to change email and phone here ... oh and i need to fix bug where if user changes their email (for now its blocked), the listing email is still the same */}
-												{mod && (
-													<TextInput id="phone" name="phone" value={formValues.seller_phone || "{not given}"} 
-														onChange={(e) => {
-															setFormValues({
-																...formValues,
-																seller_phone: e.target.value
-															});
-														}}
-													/>
-												)}
+												<TextInput id="phone" name="phone" value={formValues.seller_phone || ""} 
+													onChange={(e) => {
+														setFormValues({
+															...formValues,
+															seller_phone: e.target.value
+														});
+													}}
+												/>
 											</div>
 											<div className="flex items-center gap-1 text-xl pl-4 mb-4">
 												<Checkbox color="red" id="showPhone" name="showPhone" checked={formValues.phone_show} 

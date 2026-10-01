@@ -33,8 +33,8 @@ export default function Footer() {
         <div className="footer border-t border-slate-200 bg-white text-slate-900 p-10 min-h-fit h-100 max-w-screen dark:border-(--darkborder) dark:bg-(--darkbg) dark:text-white smooth-trans">
             <div className="footer-content flex flex-col lg:flex-row justify-between items-center mb-10">
                 <div className="footer-logo flex items-center mb-4 md:mb-0">
-                    <img draggable="false" src="/favicon.png" alt="Heritage Market Logo" className="h-20 mr-2" />
-                    <span className="text-2xl font-bold">The Heritage Market</span>
+                    <img draggable="false" src="/favicon.png" alt="School Market Logo" className="h-20 mr-2" />
+                    <span className="text-2xl font-bold">School Market</span>
                 </div>
                 <div className="quotation lg:m-0 mt-4">
                     <Blockquote className="text-lg font-normal text-slate-600 flex flex-col dark:text-gray-400">

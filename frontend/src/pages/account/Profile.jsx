@@ -311,7 +311,7 @@ export default function Profile() {
                 {admin && (
                     <>
                     <HR className="m-0" />
-                    <div className="mod-stuff p-4 flex justify-between items-center pr-8">
+                    <div className="mod-stuff p-4 flex flex-col md:flex-row justify-between items-center pr-8">
                         <div className="flex flex-col">
                             {showError && (
                                 <p className="text-red-600 text-xl">{error}</p>

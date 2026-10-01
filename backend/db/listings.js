@@ -263,6 +263,18 @@ const Listings = {
                 throw err;
             }
         },
+
+        async awaiting_moderation(new_state, id) {
+            const query = "UPDATE listings SET awaiting_moderation = $1 WHERE id = $2 RETURNING *";
+            const values = [new_state, id];
+            try {
+                const result = await pool.query(query, values);
+                return result.rows[0] || null;
+            } catch (err) {
+                console.error("error in listings db update.awaiting_moderation()", err);
+                throw err;
+            }
+        }
     },
     danger: {
         async delete(id) {

@@ -40,8 +40,8 @@ export default function Header() {
     return (
         <Navbar className="header py-2 px-5 min-w-screen smooth-trans fixed z-4000">
             <NavbarBrand href="/">
-                <img draggable="false"src="/favicon.png" className="mr-3 h-12" alt="Heritage Market Logo" />
-                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white hidden md:flex ">Heritage Market</span>
+                <img draggable="false"src="/favicon.png" className="mr-3 h-12" alt="School Market Logo" />
+                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white hidden md:flex ">School Market</span>
             </NavbarBrand>
             <div className="flex md:order-2 items-center">
                 <Button
