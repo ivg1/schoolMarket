@@ -1,4 +1,4 @@
-# The Heritage Market
+# School Market
 A platform for students to buy/sell goods and services in your school's community.
 
 I made this platform to make it easier for students to trade things in their school, such as textbooks. Reselling used books after a school year is sometimes difficult, so why not have a platform for your school, where these books are used, and have students who will need them next year find them? (I also added possibility for services)
@@ -28,8 +28,8 @@ This project has multiple features:
 ### Installing
 ```bash
 #Clone the github repo
-git clone https://github.com/ivg1/theHeritageMarket.git
-cd theHeritageMarket
+git clone https://github.com/ivg1/schoolMarket.git
+cd schoolMarket
 
 #Install dependencies and start dev servers
 cd frontend
