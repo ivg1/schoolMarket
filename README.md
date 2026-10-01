@@ -1,6 +1,8 @@
 # The Heritage Market
 A platform for students to buy/sell goods and services in your school's community.
 
+I made this platform to make it easier for students to trade things in their school, such as textbooks. Reselling used books after a school year is sometimes difficult, so why not have a platform for your school, where these books are used, and have students who will need them next year find them? (I also added possibility for services)
+
 *Project is still in development.*
 
 ## Features
@@ -11,7 +13,7 @@ This project has multiple features:
 - Statistics - usage, etc. (planned) (some already implemented)
 - Messenger (planned)
 
-## Tech stack
+## What I used for stack
 - **Frontend**: Javascript, React, Tailwind CSS, Flowbite
 - **Backend**: Node.js
 - **Database**: PostgreSQL 18
@@ -32,13 +34,14 @@ cd theHeritageMarket
 #Install dependencies and start dev servers
 cd frontend
 npm install
-#if you get npm warn and error, run: rm package-lock.json
+#If you get npm warn and error, run: rm package-lock.json (cus I have to on my server)
 cd ../backend
 npm install
 ```
 
 ### Setting up the PostgreSQL database
-#### 1. Create the database for this project (make sure to write the account credentials and db name in the .env file).
+#### 1. Create the database for this project 
+(make sure to write the account credentials and db name in the ```.env``` file).
 
 For example:
 ```sql
@@ -47,7 +50,7 @@ create database theheritagedb;
 
 #### 2. Run the query below.
 There is a folder called ```db``` in which you will find 2 files.
-The one we want is creating_db_tables.sql:
+The one we want is ```creating_db_tables.sql```:
 
 ```sql
 create table users (
@@ -123,4 +126,3 @@ npm run build
 Then copy the contents of the ```dist``` folder to somewhere, or upload them to a hosting platform like vercel.
 
 That's it.
-
