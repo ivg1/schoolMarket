@@ -143,7 +143,7 @@ export default function SignupPage() {
                             <div className="mb-2 block">
                                 <Label htmlFor="email">Email:&nbsp;<span className="text-red-600">*</span></Label>
                             </div>
-                            <TextInput id="email" name="email" type="email" placeholder="test@hpsm.run.place" required shadow />
+                            <TextInput id="email" name="email" type="email" placeholder="test@market.ivg1.dev" required shadow />
                         </div>
                         <div className="form-item">
                             <div className="mb-2 block">
