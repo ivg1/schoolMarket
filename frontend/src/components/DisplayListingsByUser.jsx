@@ -119,6 +119,7 @@ export default function DisplayListings({ onListingClick, profileId }) {
 							{listing.is_physical ? (
 								<div className="listing-card relative min-h-fit hover:bg-white hover:cursor-pointer dark:hover:bg-[#151515] overflow-hidden" key={listing.id} listingid={listing.id}>
 									<div className="flex flex-col gap-2" onClick={() => { onListingClick?.(listing) }}>
+										<a href={`/listings/${listing.id}`} className="no-underline m-0 p-0 w-full h-full absolute top-0 left-0 z-2"></a>
 										<div className="listing-card-image-container">
 											{listing.awaiting_moderation ? (
 												<div className="m-2">
@@ -183,6 +184,7 @@ export default function DisplayListings({ onListingClick, profileId }) {
 							) : (
 								<div className="listing-card relative min-h-fit hover:bg-white hover:cursor-pointer dark:hover:bg-[#151515] overflow-hidden" key={listing.id} listingid={listing.id}>
 									<div className="flex flex-col gap-2" onClick={() => { onListingClick?.(listing) }}>
+										<a href={`/listings/${listing.id}`} className="no-underline m-0 p-0 w-full h-full absolute top-0 left-0 z-2"></a>
 										<div className="listing-service-desc-container p-2">
 											<h1 className="text-md font-bold mb-0">Service</h1>
 											<div className="mb-2">

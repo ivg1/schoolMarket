@@ -124,6 +124,12 @@ export default function DisplayFullListing() {
             setIsSubmitted(false);
             return;
         }
+		if (formValues.title.length > 60) {
+            setError("Title too long.");
+            setShowError(true);
+            setIsSubmitted(false);
+            return;
+        }
         if (formValues.price < 0) {
             setError("Price cannot be negative.");
             setShowError(true);
@@ -251,7 +257,8 @@ export default function DisplayFullListing() {
 
 	return (
 		<>
-		<div>
+		<div className="max-w-screen min-h-screen">
+			{console.log(listing)}
 			<form onSubmit={handleSaveChanges}>
 				<div className="flex justify-between">
 					<Button color="bgless" type="button" className="mx-6 mt-4" onClick={() => { navigate(-1) }}>
@@ -396,7 +403,7 @@ export default function DisplayFullListing() {
 										<p className="whitespace-pre-wrap">{formValues.description}</p>
 									)}
 								</div>
-								<div className=" flex mb-6 gap-2">
+								<div className=" flex mb-6 gap-2 flex-wrap">
 									{tags.length > 0 ? (
 										tags.map((tag) => (
 											<div className="border-solid border-gray-500 border rounded-2xl px-2" key={tag}>
@@ -421,14 +428,16 @@ export default function DisplayFullListing() {
 										<div className="contact-card bg-red-700 dark:bg-red-900 text-white xl:w-1/2 w-full min-h-fit rounded-2xl overflow-x-hidden">
 											<div className="min-w-full min-h-full rounded-2xl p-3">
 												<h1 className="text-xl font-bold">Email:</h1>
-												<TextInput id="email" name="email" value={formValues.seller_email || ""} 
-													onChange={(e) => {
-														setFormValues({
-															...formValues,
-															seller_email: e.target.value
-														});
-													}}
-												/>
+												{formValues.email_show && (
+													<TextInput id="email" name="email" value={formValues.seller_email || ""} 
+														onChange={(e) => {
+															setFormValues({
+																...formValues,
+																seller_email: e.target.value
+															});
+														}}
+													/>
+												)}
 											</div>
 											<div className="flex items-center gap-1 text-xl pl-4 mb-4">
 												<Checkbox color="red" id="showEmail" name="showEmail" checked={formValues.email_show} 
@@ -445,14 +454,16 @@ export default function DisplayFullListing() {
 										<div className="contact-card bg-green-700 dark:bg-green-900 text-white xl:w-1/2 w-full min-h-fit rounded-2xl overflow-x-hidden">
 											<div className="min-w-full min-h-full rounded-2xl p-3">
 												<h1 className="text-xl font-bold">Phone number:</h1>
-												<TextInput id="phone" name="phone" value={formValues.seller_phone || ""} 
+												{formValues.phone_show && (
+													<TextInput id="phone" name="phone" value={formValues.seller_phone || ""} 
 													onChange={(e) => {
 														setFormValues({
 															...formValues,
 															seller_phone: e.target.value
 														});
 													}}
-												/>
+													/>
+												)}
 											</div>
 											<div className="flex items-center gap-1 text-xl pl-4 mb-4">
 												<Checkbox color="red" id="showPhone" name="showPhone" checked={formValues.phone_show} 

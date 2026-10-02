@@ -99,7 +99,67 @@ export default function CreateListing({ open, onClose }) {
             //const values = Object.fromEntries(formData.entries());
             //console.log(values);
             console.log(newListing);
-            
+
+            //general validation
+            if (newListing.title === "") {
+                setError("Title cannot be empty.");
+                setShowError(true);
+                setIsSubmitted(false);
+                return;
+            }
+            if (newListing.title.length > 60) {
+                setError("Title too long.");
+                setShowError(true);
+                setIsSubmitted(false);
+                return;
+            }
+
+            if (newListing.price < 0) {
+                setError("Price cannot be negative.");
+                setShowError(true);
+                setIsSubmitted(false);
+                return;
+            }
+            if (newListing.price > 1000) {
+                setError("Price is way too high.");
+                setShowError(true);
+                setIsSubmitted(false);
+                return;
+            }
+            if (Math.round(newListing.price) !== Number(newListing.price)) {
+                setError("Price has to be integer.");
+                setShowError(true);
+                setIsSubmitted(false);
+                return;
+            }
+
+            if (newListing.description === "") {
+                setError("Cannot have an empty description.");
+                setShowError(true);
+                setIsSubmitted(false);
+                return;
+            }
+            if (newListing.description.length > 2000) {
+                setError("Description too long.");
+                setShowError(true);
+                setIsSubmitted(false);
+                return;
+            }
+            if (newListing.tags.length > 60) {
+                setError("Tags too long.");
+                setShowError(true);
+                setIsSubmitted(false);
+                return;
+            }
+
+            const goodTags = [...new Set(
+                newListing.tags
+                    .split(",")
+                    .map(tag => tag.trim().toLowerCase())
+                    .filter(tag => tag.length > 0)
+                    .map(tag => tag.charAt(0).toUpperCase() + tag.slice(1))
+            )];
+
             //here i could just go through each image in a for loop and upload them one by one
             //but why not have parallel uploads so its faster. speeeeed
             let imageUrls = [];
@@ -162,60 +222,6 @@ export default function CreateListing({ open, onClose }) {
                     return;
                 }
             }
-
-            //general validation
-            if (newListing.title === "") {
-                setError("Title cannot be empty.");
-                setShowError(true);
-                setIsSubmitted(false);
-                return;
-            }
-            if (newListing.title.length > 60) {
-                setError("Title too long.");
-                setShowError(true);
-                setIsSubmitted(false);
-                return;
-            }
-
-            if (newListing.price < 0) {
-                setError("Price cannot be negative.");
-                setShowError(true);
-                setIsSubmitted(false);
-                return;
-            }
-            if (Math.round(newListing.price) !== Number(newListing.price)) {
-                setError("Price has to be integer.");
-                setShowError(true);
-                setIsSubmitted(false);
-                return;
-            }
-
-            if (newListing.description === "") {
-                setError("Cannot have an empty description.");
-                setShowError(true);
-                setIsSubmitted(false);
-                return;
-            }
-            if (newListing.description.length > 2000) {
-                setError("Description too long.");
-                setShowError(true);
-                setIsSubmitted(false);
-                return;
-            }
-            if (newListing.tags.trim() === "") {
-                setError("Tags are missing.");
-                setShowError(true);
-                setIsSubmitted(false);
-                return;
-            }
-
-            const goodTags = [...new Set(
-                newListing.tags
-                    .split(",")
-                    .map(tag => tag.trim().toLowerCase())
-                    .filter(tag => tag.length > 0)
-                    .map(tag => tag.charAt(0).toUpperCase() + tag.slice(1))
-            )];
             
             try {
 
@@ -223,8 +229,8 @@ export default function CreateListing({ open, onClose }) {
                 const username = me.username;
                 const userData = await Server.users.getDataByUsername(username); //yes i dont leak anything other than email, phone and id here
                 const sellerId = userData.id;
-                const sellerEmail = (newListing.includeEmail === "on") ? userData.email : null; //honestly idk how this might happen to set null but ok
-                const sellerPhone = (newListing.includePhone === "on") ? userData.phone : null;
+                const sellerEmail = newListing.includeEmail ? userData.email : null; //honestly idk how this might happen to set null but ok (update on 2/10/26: this does in fact set null now for some reason)
+                const sellerPhone = newListing.includePhone ? userData.phone : null;
 
                 const toSend = {
                     title: newListing.title,
@@ -235,10 +241,10 @@ export default function CreateListing({ open, onClose }) {
                     seller_id: sellerId,
                     seller_email: sellerEmail,
                     seller_phone: sellerPhone,
-                    email_show: (newListing.includeEmail === "on"),
-                    phone_show: (newListing.includePhone === "on" && sellerPhone !== null), //for now this will work, but later to add a feedback saying user doesnt have phone added
+                    email_show: newListing.includeEmail && sellerEmail !== null,
+                    phone_show: newListing.includePhone && sellerPhone !== null, //for now this will work, but later to add a feedback saying user doesnt have phone added
                     is_physical: (imageUploadingAllowed),
-                    negotiable: (newListing.negotiable === "on")
+                    negotiable: newListing.negotiable
                 };
                 console.log(toSend);
 
@@ -376,16 +382,16 @@ export default function CreateListing({ open, onClose }) {
                                     }}
                                     className={newListing.description.length > 2000 ? "border-red-600 border-2 rounded-lg" : ""}
                                 />
-                                <div className="flex justify-end">
+                                <div className="flex justify-between">
+                                    <HelperText>Try to include things like, in case of a book, how used it is. Aim to write multiple lines.</HelperText>
                                     <p className={newListing.description.length > 2000 ? "text-red-600 text-sm" : "text-gray-500 text-sm"}>{newListing.description.length}/2000</p>
                                 </div>
-                                <HelperText>Try to include things like, in case of a book, how used it is. Aim to write multiple lines.</HelperText>
                             </div>
                             <div className="form-item">
                                 <div className="mb block">
                                     <Label htmlFor="tags">Tags:</Label>
                                 </div>
-                                <TextInput id="tags" name="tags" placeholder="Book, Used, Maths, IGCSE, ..." shadow required
+                                <TextInput id="tags" name="tags" placeholder="Book, Used, Maths, IGCSE, ..." shadow
                                     value={newListing.tags}
                                     onChange={(e) => {
                                         setNewListing({
@@ -395,10 +401,10 @@ export default function CreateListing({ open, onClose }) {
                                     }}
                                     className={newListing.tags.length > 60 ? "border-red-600 border-2 rounded-lg" : ""}
                                 />
-                                <div className="flex justify-end">
+                                <div className="flex justify-between">
+                                    <HelperText>Adding tags makes it easier to find your listing. Separate them by commas.</HelperText>
                                     <p className={newListing.tags.length > 60 ? "text-red-600 text-sm" : "text-gray-500 text-sm"}>{newListing.tags.length}/60</p>
                                 </div>
-                                <HelperText>Adding tags makes it easier to find your listing. Separate them by commas.</HelperText>
                             </div>
                             <div className="form-item flex flex-col gap-1">
                                 <div className="md block">

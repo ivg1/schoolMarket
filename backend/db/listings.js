@@ -81,7 +81,7 @@ const Listings = {
         mods: {
             async getHeroAll() {
                 try {
-                    const result = await pool.query("SELECT id, title, description, price, tags, images, created_at, awaiting_moderation, is_physical FROM listings ORDER BY created_at DESC");
+                    const result = await pool.query("SELECT id, title, description, price, tags, images, created_at, awaiting_moderation, is_physical FROM listings ORDER BY awaiting_moderation DESC, created_at DESC");
                     return result.rows;
                 } catch (err) {
                     console.error("error in listings db data.getHeroAll()", err);

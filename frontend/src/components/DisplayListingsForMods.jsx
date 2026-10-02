@@ -111,7 +111,8 @@ export default function DisplayListingsForMods({ onListingClick }) {
                     <div key={listing.id}>
                         {listing.is_physical ? (
                             <div className="listing-card min-h-fit hover:cursor-pointer hover:bg-white dark:hover:bg-[#151515]" key={listing.id} listingid={listing.id}>
-                                <div className="listing-card-image-container">
+                                <div className="listing-card-image-container relative">
+                                    <a href={`/listings/${listing.id}`} className="no-underline m-0 p-0 w-full h-full absolute top-0 left-0 z-2"></a>
                                     {
                                         (() => {
                                             const images = listing.images;
@@ -154,7 +155,8 @@ export default function DisplayListingsForMods({ onListingClick }) {
                             </div>
                         ) : (
                             <div className="listing-card min-h-fit hover:cursor-pointer hover:bg-white dark:hover:bg-[#151515]" key={listing.id} listingid={listing.id}>
-                                <div className="listing-service-desc-container p-2">
+                                <div className="listing-service-desc-container p-2 relative">
+                                    <a href={`/listings/${listing.id}`} className="no-underline m-0 p-0 w-full h-full absolute top-0 left-0 z-2"></a>
                                     <h1 className="text-md font-bold mb-0">Service</h1>
                                     <div className="mb-2">
                                         <h1 className="listing-card-title text-3xl font-bold text-left min-h-fit">{listing.title}</h1>

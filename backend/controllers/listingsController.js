@@ -77,36 +77,37 @@ const updateListing_post = async (req, res) => {
 
     try {
         let listingChanges = [];
-        if (title !== undefined) {
+        if (title !== undefined && title !== listing.title) {
             listingChanges.push(await Listings.update.title(title, id));
         }
-        if (description !== undefined) {
+        if (description !== undefined && description !== listing.description) {
             listingChanges.push(await Listings.update.desc(description, id));
         }
-        if (price !== undefined) {
+        if (price !== undefined && price !== listing.price) {
             listingChanges.push(await Listings.update.price(price, id));
         }
-        if (negotiable !== undefined) {
+        if (negotiable !== undefined && negotiable !== listing.negotiable) {
             listingChanges.push(await Listings.update.negotiable(negotiable, id));
         }
-        if (tags !== undefined) {
+        if (tags !== undefined && JSON.stringify(tags) !== JSON.stringify(listing.tags)) {
             listingChanges.push(await Listings.update.tags(tags, id));
         }
-        if (seller_email !== undefined) {
+        if (seller_email !== undefined && seller_email !== null && seller_email !== listing.seller_email) {
             listingChanges.push(await Listings.update.seller_email(seller_email, id));
         }
-        if (seller_phone !== undefined) {
+        if (seller_phone !== undefined && seller_phone !== null && seller_phone !== listing.seller_phone) {
             listingChanges.push(await Listings.update.seller_phone(seller_phone, id));
         }
-        if (email_show !== undefined) {
+        if (email_show !== undefined && email_show !== listing.email_show) {
             listingChanges.push(await Listings.update.email_show(email_show, id));
         }
-        if (phone_show !== undefined) {
+        if (phone_show !== undefined && phone_show !== listing.phone_show) {
             listingChanges.push(await Listings.update.phone_show(phone_show, id));
         }
 
-        await Listings.update.awaiting_moderation(true, id);
-        
+        if (title !== listing.title && title !== undefined || description !== listing.description && description !== undefined || price !== listing.price && price !== undefined || negotiable !== listing.negotiable && negotiable !== undefined || tags !== listing.tags && tags !== undefined || (seller_email !== listing.seller_email && seller_email !== undefined && seller_email !== null) || (seller_phone !== listing.seller_phone && seller_phone !== undefined && seller_phone !== null) ) {
+            await Listings.update.awaiting_moderation(true, id);
+        }
 
         console.log("listing updated");
         return res.status(200).json({ changes: listingChanges});
@@ -157,6 +158,14 @@ const dataOfListing_get = async (req, res) => {
 
         const listing = await Listings.data.getFullData(id);
         if (!listing) return res.status(404).json({ message: "listing not found" });
+
+        //security to keep phone and email safe
+        if (!listing.phone_show) {
+            listing.seller_phone = null;
+        }
+        if (!listing.email_show) {
+            listing.seller_email = null;
+        }
 
         console.log("data of listing retrieved");
         return res.status(200).json(listing);

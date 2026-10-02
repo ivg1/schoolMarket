@@ -98,7 +98,7 @@ const Users = {
             }
         },
         async getUserDataByUsername(username) {
-            const query = "SELECT id, username, email, profile_image, fname, lname, created_at, listings_posted, about FROM users WHERE username = $1";
+            const query = "SELECT id, username, email, phone, profile_image, fname, lname, created_at, listings_posted, about FROM users WHERE username = $1";
 
             try {
                 const result = await pool.query(query, [username]);
