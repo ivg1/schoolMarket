@@ -1,6 +1,6 @@
 import Auth from "../auth/auth";
 
-const url = "/api"; //192.168.10.153:3000
+const url = "http://192.168.10.131:3000"; //http://192.168.10.131:3000
 
 export const Server = {
     listings: {

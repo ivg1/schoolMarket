@@ -10,7 +10,7 @@ const cors = require('cors');
 app.use(cors());
 
 app.listen(port, async () => {
-    console.log(`server running on http://localhost:${port}`);
+    console.log(`server running on ${process.env.SERVER_URL} (port ${port})`);
     
 });
 

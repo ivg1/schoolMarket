@@ -17,6 +17,8 @@ export default function LoginPage() {
 
 	const [shown, setShown] = useState(false);
 
+	const returnUrl = new URLSearchParams(window.location.search).get("returnUrl") || "/";
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -35,7 +37,7 @@ export default function LoginPage() {
 			console.log("login response", response);
 			Auth.storeToken(response);
 			
-			navigate("/");
+			navigate(returnUrl);
 
 		} catch (err) {
 			console.error("login failed", err);
@@ -83,7 +85,7 @@ export default function LoginPage() {
 						<Button type="submit" color="red">Login</Button>
 					</form>
 					<div className="text-center flex justify-center text-sm my-4">
-						<p>Dont have an account?</p>&nbsp;<Link to="/signup" className="text-red-600 hover:underline">Sign up</Link>
+						<p>Dont have an account?</p>&nbsp;<Link to={`/signup?returnUrl=${encodeURIComponent(returnUrl)}`} className="text-red-600 hover:underline">Sign up</Link>
 					</div>
 				</div>
 			</div>

@@ -16,6 +16,8 @@ export default function SignupPage() {
 
     const [shown, setShown] = useState(false);
 
+    const returnUrl = new URLSearchParams(window.location.search).get("returnUrl") || "/";
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -105,7 +107,7 @@ export default function SignupPage() {
         try {
             const response = await Server.auth.signup(toSend);
             console.log("signup response", response);
-            navigate("/login");
+            navigate("/login?returnUrl=" + encodeURIComponent(returnUrl));
         } catch (err) {
             console.error("signup failed", err);
             setError("User already exists with that username or email.");
