@@ -219,7 +219,7 @@ export default function Landing() {
                             <AccordionTitle>Is this service free?</AccordionTitle>
                             <AccordionContent>
                                 <p className="mb-2 text-gray-500 dark:text-gray-400">
-                                    Yes. Donations would be appreciated tho.
+                                    Yes.
                                 </p>
                             </AccordionContent>
                         </AccordionPanel>
