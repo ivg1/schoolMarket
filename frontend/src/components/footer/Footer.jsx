@@ -62,7 +62,7 @@ export default function Footer() {
                 </div>
                 <div className="link-group flex flex-col m-2 mb-6">
                     <h1 className="text-xl font-bold mb-2">Contact us</h1>
-                    <p className="text-slate-600 dark:text-gray-400">Email:<br /> <Link to="mailto:admin@ivg1.dev" className="text-red-600 hover:text-red-500">admin@ivg1.dev</Link></p>
+                    <p className="text-slate-600 dark:text-gray-400">Email:<br /> <Link to="mailto:admin@market.ivg1.dev" className="text-red-600 hover:text-red-500">admin@market.ivg1.dev</Link></p>
                     <p className="text-slate-600 dark:text-gray-400">Phone:<br /> <Link to="tel:+00000000000" className="text-red-600 hover:text-red-500">+00000000000</Link></p>
                 </div>
             </div>
