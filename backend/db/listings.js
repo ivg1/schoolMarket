@@ -8,17 +8,60 @@ const Listings = {
                     SELECT
                         id,
                         seller_id,
-                        CASE WHEN awaiting_moderation THEN 'awaiting moderation' ELSE title END AS title,
-                        CASE WHEN awaiting_moderation THEN 'awaiting moderation' ELSE description END AS description,
-                        CASE WHEN awaiting_moderation THEN 1 ELSE price END AS price,
-                        CASE WHEN awaiting_moderation THEN NULL ELSE tags END AS tags,
-                        CASE WHEN awaiting_moderation THEN NULL ELSE images END AS images,
-                        CASE WHEN awaiting_moderation THEN CURRENT_TIMESTAMP ELSE created_at END AS created_at,
+
+                        CASE
+                            WHEN awaiting_moderation
+                            THEN 'awaiting moderation'
+                            ELSE title
+                        END AS title,
+
+                        CASE
+                            WHEN awaiting_moderation
+                            THEN 'awaiting moderation'
+                            ELSE description
+                        END AS description,
+
+                        CASE
+                            WHEN awaiting_moderation
+                            THEN 1
+                            ELSE price
+                        END AS price,
+
+                        CASE
+                            WHEN awaiting_moderation
+                            THEN NULL
+                            ELSE tags
+                        END AS tags,
+
+                        CASE
+                            WHEN awaiting_moderation
+                            THEN NULL
+                            ELSE images
+                        END AS images,
+
+                        CASE
+                            WHEN awaiting_moderation
+                            THEN CURRENT_TIMESTAMP
+                            ELSE created_at
+                        END AS created_at,
+
                         is_physical,
+                        negotiable,
+
+                        school_system,
+                        school,
+                        other_school,
+                        school_class,
+                        condition,
+
+                        email_show,
+                        phone_show,
+
                         awaiting_moderation
+
                     FROM listings
                     WHERE visibility = true
-                    ORDER BY 
+                    ORDER BY
                         awaiting_moderation ASC,
                         created_at DESC
                 `);
@@ -33,25 +76,68 @@ const Listings = {
         async getHeroAllByUser(id) {
             try {
                 const result = await pool.query(`
-                    SELECT
-                        id,
-                        seller_id,
-                        CASE WHEN awaiting_moderation THEN 'awaiting moderation' ELSE title END AS title,
-                        CASE WHEN awaiting_moderation THEN 'awaiting moderation' ELSE description END AS description,
-                        CASE WHEN awaiting_moderation THEN 1 ELSE price END AS price,
-                        CASE WHEN awaiting_moderation THEN NULL ELSE tags END AS tags,
-                        CASE WHEN awaiting_moderation THEN NULL ELSE images END AS images,
-                        CASE WHEN awaiting_moderation THEN CURRENT_TIMESTAMP ELSE created_at END AS created_at,
-                        is_physical,
-                        awaiting_moderation
-                    FROM listings
-                    WHERE 
-                        visibility = true AND
-                        seller_id = $1
-                    ORDER BY 
-                        awaiting_moderation ASC,
-                        created_at DESC
-                `, [id]);
+            SELECT
+                id,
+                seller_id,
+
+                CASE
+                    WHEN awaiting_moderation
+                    THEN 'awaiting moderation'
+                    ELSE title
+                END AS title,
+
+                CASE
+                    WHEN awaiting_moderation
+                    THEN 'awaiting moderation'
+                    ELSE description
+                END AS description,
+
+                CASE
+                    WHEN awaiting_moderation
+                    THEN 1
+                    ELSE price
+                END AS price,
+
+                CASE
+                    WHEN awaiting_moderation
+                    THEN NULL
+                    ELSE tags
+                END AS tags,
+
+                CASE
+                    WHEN awaiting_moderation
+                    THEN NULL
+                    ELSE images
+                END AS images,
+
+                CASE
+                    WHEN awaiting_moderation
+                    THEN CURRENT_TIMESTAMP
+                    ELSE created_at
+                END AS created_at,
+
+                is_physical,
+                negotiable,
+
+                school_system,
+                school,
+                other_school,
+                school_class,
+                condition,
+
+                email_show,
+                phone_show,
+
+                awaiting_moderation
+
+            FROM listings
+            WHERE
+                visibility = true
+                AND seller_id = $1
+            ORDER BY
+                awaiting_moderation ASC,
+                created_at DESC
+        `, [id]);
 
                 return result.rows;
             } catch (err) {
@@ -103,9 +189,14 @@ const Listings = {
         phone_show,
         email_show,
         is_physical,
-        negotiable
+        negotiable,
+        school_system,
+        school,
+        other_school,
+        school_class,
+        condition
     ) {
-        const query = "INSERT INTO listings (title, description, price, seller_email, seller_phone, seller_id, tags, images, phone_show, email_show, is_physical, negotiable) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id";
+        const query = "INSERT INTO listings (title, description, price, seller_email, seller_phone, seller_id, tags, images, phone_show, email_show, is_physical, negotiable, school_system, school, other_school, school_class, condition) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING id";
         const values = [
             title,
             description,
@@ -118,7 +209,12 @@ const Listings = {
             phone_show,
             email_show,
             is_physical,
-            negotiable
+            negotiable,
+            school_system,
+            school,
+            other_school,
+            school_class,
+            condition
         ];
 
         try {

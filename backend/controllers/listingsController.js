@@ -5,37 +5,67 @@ const Stats = require("../db/stats");
 const createListing_post = async (req, res) => {
     try {
         const {
-            title, 
-            description, 
-            price, 
-            seller_email, 
-            seller_phone, 
-            seller_id, 
-            tags, 
-            images, 
-            phone_show, 
+            title,
+            description,
+            price,
+            seller_email,
+            seller_phone,
+            seller_id,
+            tags,
+            images,
+            phone_show,
             email_show,
             is_physical,
-            negotiable
+            negotiable,
+            school_system,
+            school,
+            other_school,
+            school_class,
+            condition
         } = req.body;
 
         if (seller_id !== req.userId) return res.status(400).json({ error: "you are not showing yourself for who you are" });
 
         if ((title === undefined) || (price === undefined) || (seller_id === undefined) || (description === undefined) || (is_physical === undefined) || (tags === undefined)) return res.status(400).json({ message: "missing must have fields"});
+
+        if (!school_system || !school || !school_class) {
+            return res.status(400).json({
+                error: "missing school information"
+            });
+        }
+
+        if (school === "Other" && (!other_school || other_school.trim().length === 0)) {
+            return res.status(400).json({
+                error: "other school name is required"
+            });
+        }
+
+        if (is_physical && (!condition || condition.trim().length === 0)) {
+            return res.status(400).json({
+                error: "condition is required for physical listings"
+            });
+        }
         
+        const listingCondition = is_physical ? condition : null;
+
         const result = await Listings.create(
-            title, 
-            description, 
-            price, 
-            seller_email, 
-            seller_phone, 
-            seller_id, 
-            tags, 
-            images, 
-            phone_show, 
+            title.trim(),
+            description.trim(),
+            price,
+            seller_email,
+            seller_phone,
+            seller_id,
+            tags,
+            images,
+            phone_show,
             email_show,
             is_physical,
-            negotiable
+            negotiable,
+            school_system,
+            school,
+            school === "Other" ? other_school.trim() : null,
+            school_class,
+            listingCondition
         );
         console.log("listing created", result);
 

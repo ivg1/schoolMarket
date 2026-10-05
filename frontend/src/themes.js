@@ -128,6 +128,20 @@ export const lightTheme = createTheme({
     checkbox: {
         base: "rounded-sm"
     },
+
+    select: {
+        field: {
+            select: {
+                base: "",
+                colors: {
+                    gray: "focus:border-red-600 focus:ring-red-600"
+                }
+            }
+        }
+    },
+    radio: {
+        base: "min-w-4 min-h-3"
+    },
 });
 
 export const darkTheme = createTheme({
@@ -225,7 +239,7 @@ export const darkTheme = createTheme({
         base: "dark:bg-(--darkbutton-1) rounded-sm"
     },
     radio: {
-        base: "dark:bg-(--darkbutoton)"
+        base: "dark:bg-(--darkbutoton) min-w-4 min-h-3"
     },
     textarea: {
         base: "",
@@ -263,7 +277,17 @@ export const darkTheme = createTheme({
             base: "dark:bg-red-800 dark:text-red-400 dark:hover:bg-red-700 dark:hover:text-red-200"
         }
     },
-    
+    select: {
+        field: {
+            select: {
+                base: "",
+                colors: {
+                    gray: "dark:border-(--darkborder) dark:bg-(--darkbutton-1) dark:text-white dark:placeholder-gray-400 dark:focus:border-red-600 dark:focus:ring-red-600"
+                }
+            }
+        }
+    },
+
 });
 
 export default darkTheme;

@@ -311,6 +311,9 @@ export default function DisplayFullListing() {
 								{editAccess && specialMessage !== "" && (
 									<p className="whitespace-pre-wrap text-red-600 mb-2">{specialMessage}</p>
 								)}
+								{editing && (
+									<p className="text-md text-gray-400 mb-2">Editing some items is not allowed.</p>
+								)}
 								<div className="flex flex-col mb-6">
 									{!formValues.is_physical && (<h1 className="text-md font-bold mb-0">Service</h1>)}
 									{editing ? (
@@ -402,6 +405,16 @@ export default function DisplayFullListing() {
 									) : (
 										<p className="whitespace-pre-wrap">{formValues.description}</p>
 									)}
+								</div>
+								<div className="mb-6">
+									<h2 className="text-2xl font-semibold">School info:</h2>
+									<p className="whitespace-pre-wrap">System: <b className="font-bold text-xl">{formValues.school_system}</b></p>
+									{formValues.other_school !== null ? (
+										<p className="whitespace-pre-wrap">Name: <b className="font-bold text-xl">{formValues.other_school}</b></p>
+									) : (
+										<p className="whitespace-pre-wrap">Name: <b className="font-bold text-xl">{formValues.school}</b></p>
+									)}
+									<p className="whitespace-pre-wrap">Year: <b className="font-bold text-xl">{formValues.school_class}</b></p>
 								</div>
 								<div className=" flex mb-6 gap-2 flex-wrap">
 									{tags.length > 0 ? (

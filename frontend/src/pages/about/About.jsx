@@ -14,10 +14,10 @@ export default function About() {
                     <div className="flex flex-col ">
                         <div className="flex flex-col max-w-300">
                             <p className="text-2xl mb-10">
-                                The School Market (SM) is a platform developed with the aim to make it <span className="text-red-700">easier</span> for students to show their goods or services, and/or search for what they need.
+                                The School Market (SM) is a platform developed with the aim to make it <span className="text-red-700">easier</span> for students to search for what they need and show their goods or services.
                             </p>
                             <p className="text-2xl">
-                                SM provides everything students need to begin using this platform, at <span className="text-red-700">zero cost</span>:
+                                SM provides everything students need to begin using this platform for <span className="text-red-700">free</span>:
                             </p>
                             <p className="text-lg">
                                 A working listings system, accounts system, built-in messenger (soon), and statistics (soon).
