@@ -729,20 +729,20 @@ export default function CreateListing({ open, onClose }) {
                                     onChange={(e) => updateListing("schoolClass", e.target.value)}
                                     className=""
                                 >
-                                    <option value="">-- Select school class --</option>
-                                    <option value="Year 1 / A' Dimotikou">Year 1 / A' Dimotikou</option>
-                                    <option value="Year 2 / B' Dimotikou">Year 2 / B' Dimotikou</option>
-                                    <option value="Year 3 / Γ' Dimotikou">Year 3 / Γ' Dimotikou</option>
-                                    <option value="Year 4 / Δ' Dimotikou">Year 4 / Δ' Dimotikou</option>
-                                    <option value="Year 5 / E' Dimotikou">Year 5 / E' Dimotikou</option>
-                                    <option value="Year 6 / ΣΤ' Dimotikou">Year 6 / ΣΤ' Dimotikou</option>
-                                    <option value="Year 7 / A' Gymnasiou">Year 7 / A' Gymnasiou</option>
-                                    <option value="Year 8 / B' Gymnasiou">Year 8 / B' Gymnasiou</option>
-                                    <option value="Year 9 / Γ' Gymnasiou">Year 9 / Γ' Gymnasiou</option>
-                                    <option value="Year 10 / A' Lykeiou">Year 10 / A' Lykeiou</option>
-                                    <option value="Year 11 / B' Lykeiou">Year 11 / B' Lykeiou</option>
-                                    <option value="Year 12 / Γ' Lykeiou">Year 12 / Γ' Lykeiou</option>
-                                    <option value="Year 13">Year 13</option>
+                                        <option value="">-- Select school class --</option>
+                                        <option value="Year 1 / Α' Δημοτικού">Year 1 / Α' Δημοτικού</option>
+                                        <option value="Year 2 / Β' Δημοτικού">Year 2 / Β' Δημοτικού</option>
+                                        <option value="Year 3 / Γ' Δημοτικού">Year 3 / Γ' Δημοτικού</option>
+                                        <option value="Year 4 / Δ' Δημοτικού">Year 4 / Δ' Δημοτικού</option>
+                                        <option value="Year 5 / Ε' Δημοτικού">Year 5 / Ε' Δημοτικού</option>
+                                        <option value="Year 6 / ΣΤ' Δημοτικού">Year 6 / ΣΤ' Δημοτικού</option>
+                                        <option value="Year 7 / Α' Γυμνασίου">Year 7 / Α' Γυμνασίου</option>
+                                        <option value="Year 8 / Β' Γυμνασίου">Year 8 / Β' Γυμνασίου</option>
+                                        <option value="Year 9 / Γ' Γυμνασίου">Year 9 / Γ' Γυμνασίου</option>
+                                        <option value="Year 10 / Α' Λυκείου">Year 10 / Α' Λυκείου</option>
+                                        <option value="Year 11 / Β' Λυκείου">Year 11 / Β' Λυκείου</option>
+                                        <option value="Year 12 / Γ' Λυκείου">Year 12 / Γ' Λυκείου</option>
+                                        <option value="Year 13">Year 13</option>
                                 </Select>
                             </div>
                         </div>
