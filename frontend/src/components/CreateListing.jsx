@@ -692,7 +692,9 @@ export default function CreateListing({ open, onClose }) {
                                     {newListing.schoolSystem === "English" && (
                                         <>
                                             <option value="The Heritage Private School">The Heritage Private School</option>
+                                            <option value="The Island Private School">The Island Private School</option>
                                             <option value="The Grammar School">The Grammar School</option>
+                                            <option value="American Academy">American Academy</option>
                                             <option value="Foley's Private School">Foley's Private School</option>
                                             <option value="Pascal">Pascal Private School</option>
                                         </>
