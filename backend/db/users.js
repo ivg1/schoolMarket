@@ -317,6 +317,7 @@ const Users = {
     danger: {
         async delete(id) {
             try {
+                await pool.query("DELETE FROM listings WHERE seller_id = $1", [id]);
                 const result = await pool.query("DELETE FROM users WHERE id = $1 RETURNING *", [id]);
                 console.log(`db deleted user of id ${id}`);
                 return result.rows[0] || null;

@@ -98,7 +98,7 @@ export default function SignupPage() {
         const toSend = {
             username: values.username,
             email: values.email,
-            password: values.password,
+            password: values.password.trim(),
             phone: values.phone,
             fname: values.fname,
             lname: values.lname,

@@ -156,12 +156,28 @@ const privateResetPass_post = async (req, res) => {
     }
 }
 
-//same thing here, SECURE ASAP (when done with auth)
+//same thing here, SECURE IT (when done with auth)
 const deleteUser_post = async (req, res) => {
     try {
-        const { id } = req.body;
-        const result = await Users.danger.delete(id);
-        return res.status(200).json({ deleted: result });
+        const { id, password } = req.body;
+
+        if (req.is_admin || req.is_mod) {
+            console.log("admin or mod deleting user");
+            const result = await Users.danger.delete(id);
+            return res.status(200).json({ deleted: result });
+        } else {
+            console.log("user deleting self");
+            const passHash = await Users.auth.returnPassHash(id);
+            const match = await bcrypt.compare(password, passHash);
+
+            if (!passHash || !(await bcrypt.compare(password, passHash))) {
+                console.log("wrong password given for deletion");
+                return res.status(401).json({ error: "password doesn't match" });
+            }
+
+            const result = await Users.danger.delete(id);
+            return res.status(200).json({ message: result });
+        }
     } catch (err) {
         console.error(err);
         return res.status(400).json({ error: "failed deleting user in controller"});
@@ -169,7 +185,7 @@ const deleteUser_post = async (req, res) => {
 }
 
 
-//special for getting users as admin
+//special for getting users as mod
 const setUserMod_post = async (req, res) => {
     try {
         const { id } = req.body;

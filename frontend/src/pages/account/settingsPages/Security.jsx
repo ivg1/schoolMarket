@@ -1,5 +1,6 @@
 import Server from "../../../serverComms/server";
 import Data from "../../../auth/data";
+import Auth from "../../../auth/auth";
 
 import { 
     Button, 
@@ -23,6 +24,7 @@ export default function Security({ details, loading, loadingError}) {
 
     const [submitting, setSubmitting] = useState(false);
     const [submittingDelete, setSubmittingDelete] = useState(false);
+    const [password, setPassword] = useState("");
 
     const handlePasswordSubmit = async (e) => {
         e.preventDefault();
@@ -90,10 +92,42 @@ export default function Security({ details, loading, loadingError}) {
 
     const handleDeleteSubmit = async (e) => {
         e.preventDefault();
+
+        if (!window.confirm("Are you sure you want to delete your account?")) {
+            setError("Account deletion cancelled.");
+            setShowError(true);
+            return;
+        }
+
+        if (password.trim().length === 0) {
+            setError("Password cannot be empty.");
+            setShowError(true);
+            return;
+        }
+
         setSubmittingDelete(true);
         console.log("started process deleting user");
 
-        //
+        const me = await Data.me(true);
+        const id = me.id;
+
+        try {
+            const toSend = {
+                id: id,
+                password: password.trim()
+            };
+
+            const response = await Server.users.danger.delete(toSend);
+            console.log("deleted user");
+            
+            Auth.deleteToken();
+            Data.deleteMe();
+            window.location.href = "/";
+
+        } catch (err) {
+            setError(String(err));
+            setShowError(true);
+        }
 
         setSubmittingDelete(false);
     }
@@ -118,11 +152,6 @@ export default function Security({ details, loading, loadingError}) {
                                         <p className="text-green-400">Password updated.</p>
                                     </div>
                                 ) : (<></>)}
-                                {error && showError && (
-                                    <div>
-                                        <p className="text-red-600">{error}</p>
-                                    </div>
-                                )}
                                 <div className="flex gap-4 items-center flex-col sm:flex-row max-w-fit">
                                     <div className="form-item">
                                         <div className="block mb-2">
@@ -156,14 +185,13 @@ export default function Security({ details, loading, loadingError}) {
                         <div className="">
                             <h1 className="text-2xl font-bold ml-2 mb-2 text-red-600">Delete account</h1>
                             <div className="flex gap-4 mb-4 flex-col border border-red-600 p-4 rounded-2xl ">
-                                <h1 className="text-lg font-bold text-red-600">(Currently disabled)</h1>
                                 <div className="flex gap-4 items-center flex-col sm:flex-row max-w-fit">
                                     <div className="form-item">
                                         <div className="block mb-2">
-                                            <Label htmlFor="username">Username:</Label>
+                                            <Label htmlFor="password">Password:</Label>
                                         </div>
-                                        <TextInput id="username" name="username" disabled />
-                                        <HelperText className="text-red-600">Enter your username to confirm.</HelperText>
+                                        <TextInput id="password" name="password" type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                        <HelperText className="text-red-600">Enter your password to confirm.</HelperText>
                                     </div>
                                 </div>
                             </div>
@@ -172,18 +200,14 @@ export default function Security({ details, loading, loadingError}) {
                     </form>
                 </div>
             </div>
-            {/*
             {error && showError && (
-                <div className="absolute z-20">
-                    <div className="min-w-screen fixed flex top-0 left-0 p-4">
-                         <Toast>
-                            {error}
-                            <ToastToggle onDismiss={() => setShowError(false)} />
-                        </Toast>
-                    </div>
-                </div>
+                <div className="min-w-screen fixed flex top-0 left-0 p-4 z-10000">
+					<Toast>
+                        {error}
+                        <ToastToggle onDismiss={() => setShowError(false)} />
+                    </Toast>
+				</div>
             )}
-            */}
         </div>
     )
 }

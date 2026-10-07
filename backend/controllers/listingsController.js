@@ -135,7 +135,7 @@ const updateListing_post = async (req, res) => {
             listingChanges.push(await Listings.update.phone_show(phone_show, id));
         }
 
-        if (title !== listing.title && title !== undefined || description !== listing.description && description !== undefined || price !== listing.price && price !== undefined || tags !== listing.tags && tags !== undefined || (seller_email !== listing.seller_email && seller_email !== undefined && seller_email !== null) || (seller_phone !== listing.seller_phone && seller_phone !== undefined && seller_phone !== null) ) {
+        if (title !== listing.title && title !== undefined || description !== listing.description && description !== undefined || tags !== listing.tags && tags !== undefined || (seller_email !== listing.seller_email && seller_email !== undefined && seller_email !== null) || (seller_phone !== listing.seller_phone && seller_phone !== undefined && seller_phone !== null) ) {
             await Listings.update.awaiting_moderation(true, id);
         }
 

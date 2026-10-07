@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import Server from "../../serverComms/server";
 import Auth from "../../auth/auth";
+import Data from "../../auth/data";
 
 
 export default function LoginPage() {
@@ -27,7 +28,7 @@ export default function LoginPage() {
 
 		const toSend = {
 			username: values.username,
-			password: values.password,
+			password: values.password.trim(),
 		};
 		console.log(toSend);
 	
@@ -35,7 +36,8 @@ export default function LoginPage() {
 			const response = await Server.auth.login(toSend);
 
 			console.log("login response", response);
-			Auth.storeToken(response);
+			await Auth.storeToken(response);
+			await Data.me(true);
 			
 			navigate(returnUrl);
 
@@ -56,13 +58,13 @@ export default function LoginPage() {
 					<form className="flex min-w-full flex-col gap-4" id="login-form" onSubmit={handleSubmit}>
 						<div className="form-item">
 							<div className="mb-2 block">
-								<Label htmlFor="username">Username:&nbsp;<span className="text-red-600">*</span></Label>
+								<Label htmlFor="username">Username/Email:</Label>
 							</div>
 							<TextInput id="username" name="username" type="text" placeholder="user1234" required shadow />
 						</div>
 						<div className="form-item">
 							<div className="mb-2 block">
-								<Label htmlFor="password">Password:&nbsp;<span className="text-red-600">*</span></Label>
+								<Label htmlFor="password">Password:</Label>
 							</div>
 							<div className="relative">
 								<TextInput id="password" name="password" type={shown ? "text" : "password"} placeholder="••••••••" required shadow />

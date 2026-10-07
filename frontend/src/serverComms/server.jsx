@@ -190,7 +190,7 @@ export const Server = {
                     },
                     body: JSON.stringify(body ?? {})
                 });
-                if (response.status === 401) throw new Error("Wrong current password")
+                if (response.status === 401) throw new Error("Wrong current password");
                 if (!response.ok) throw new Error("failed resetting password");
                 return await response.json();
             }
@@ -257,7 +257,7 @@ export const Server = {
                 });
                 if (!response.ok) {
                     const error = await response.json();
-                    throw new Error(error.message);
+                    throw new Error(error.error || error.message || "failed deleting user");
                 }
                 //console.log(await response.json());
                 return await response.json();

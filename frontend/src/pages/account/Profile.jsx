@@ -124,7 +124,7 @@ export default function Profile() {
         //const values = Object.fromEntries(formData.entries());
         //console.log(values);
 
-        if (newAbout.length > 200) {
+        if (newAbout.length > 600) {
             console.error("About too long.");
             setAboutError("About too long.");
             setSubmitted(false);
@@ -265,7 +265,7 @@ export default function Profile() {
                                         }} />
                                         <div className="flex justify-between">
                                             <Button color="red" type="submit" disabled={isSubmitted}>{isSubmitted ? "Saving..." : "Save"}</Button>
-                                            <p className={newAbout.length > 200 ? "text-red-600 text-sm" : "text-gray-500 text-sm"}>{newAbout.length}/200</p>
+                                            <p className={newAbout.length > 600 ? "text-red-600 text-sm" : "text-gray-500 text-sm"}>{newAbout.length}/600</p>
                                         </div>
                                     </form>
                                 ) : (
@@ -308,11 +308,11 @@ export default function Profile() {
                         </div>
                     </div>
                 </div>
-                {admin && (
+                {(mod || admin) && (
                     <>
                     <HR className="m-0" />
                     <div className="mod-stuff p-4 flex flex-col md:flex-row justify-between items-center pr-8">
-                        <div className="flex flex-col">
+                        <div className="flex flex-col mb-2 gap-2">
                             {showError && (
                                 <p className="text-red-600 text-xl">{error}</p>
                             )}
@@ -321,8 +321,12 @@ export default function Profile() {
                             )}
                         </div>
                         <div className="flex gap-2">
-                            <Button color="red" onClick={handleSetUserMod}>Set as Mod</Button>
-                            <Button className="bg-green-600 hover:bg-green-700 dark:bg-green-600 dark:hover:bg-green-700" onClick={handleRemoveUserMod}>Remove Mod</Button>
+                            {admin && (
+                                <>
+                                    <Button color="red" onClick={handleSetUserMod}>Set as </Button>
+                                    <Button className="bg-green-600 hover:bg-green-700 dark:bg-green-600 dark:hover:bg-green-700" onClick={handleRemoveUserMod}>Remove Mod</Button>
+                                </>
+                            )}
                             <Button color="red" onClick={handleDeleteUser}>Delete user</Button>
                         </div>
                     </div>

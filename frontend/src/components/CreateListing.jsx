@@ -514,7 +514,7 @@ export default function CreateListing({ open, onClose }) {
                                         Physical item
                                     </Label>
                                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                                        Sell a physical item such as a book, phone, clothes, etc.
+                                        Sell physical items such as books and other school materials.
                                     </p>
                                 </div>
                             </label>

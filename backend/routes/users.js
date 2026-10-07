@@ -34,6 +34,6 @@ router.post("/private/resetPass", authJwt.verifyToken, usersController.privateRe
 router.post("/admins/setMod", authJwt.verifyToken, roleCheck.needAdmin, usersController.setUserMod_post);
 router.post("/admins/removeMod", authJwt.verifyToken, roleCheck.needAdmin, usersController.removeUserMod_post)
 
-router.post("/danger/delete", authJwt.verifyToken, roleCheck.needPrivilege, usersController.deleteUser_post);
+router.post("/danger/delete", authJwt.verifyToken, roleCheck.isSameIdOrIsModAdmin, usersController.deleteUser_post);
 
 module.exports = router;
