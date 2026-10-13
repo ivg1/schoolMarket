@@ -45,7 +45,6 @@ const Listings = {
                             ELSE created_at
                         END AS created_at,
 
-                        is_physical,
                         negotiable,
 
                         school_system,
@@ -116,7 +115,6 @@ const Listings = {
                     ELSE created_at
                 END AS created_at,
 
-                is_physical,
                 negotiable,
 
                 school_system,
@@ -167,7 +165,7 @@ const Listings = {
         mods: {
             async getHeroAll() {
                 try {
-                    const result = await pool.query("SELECT id, title, description, price, tags, images, created_at, awaiting_moderation, is_physical FROM listings ORDER BY awaiting_moderation DESC, created_at DESC");
+                    const result = await pool.query("SELECT id, title, description, price, tags, images, created_at, awaiting_moderation FROM listings ORDER BY awaiting_moderation DESC, created_at DESC");
                     return result.rows;
                 } catch (err) {
                     console.error("error in listings db data.getHeroAll()", err);
@@ -188,7 +186,6 @@ const Listings = {
         images,
         phone_show,
         email_show,
-        is_physical,
         negotiable,
         school_system,
         school,
@@ -196,7 +193,7 @@ const Listings = {
         school_class,
         condition
     ) {
-        const query = "INSERT INTO listings (title, description, price, seller_email, seller_phone, seller_id, tags, images, phone_show, email_show, is_physical, negotiable, school_system, school, other_school, school_class, condition) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING id";
+        const query = "INSERT INTO listings (title, description, price, seller_email, seller_phone, seller_id, tags, images, phone_show, email_show, negotiable, school_system, school, other_school, school_class, condition) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING id";
         const values = [
             title,
             description,
@@ -208,7 +205,6 @@ const Listings = {
             images,
             phone_show,
             email_show,
-            is_physical,
             negotiable,
             school_system,
             school,

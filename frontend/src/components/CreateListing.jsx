@@ -13,7 +13,7 @@ export default function CreateListing({ open, onClose }) {
     const [showError, setShowError] = useState(true);
 
     const initialListing = {
-        type: "physical",
+        //type: "physical",
 
         title: "",
         price: "",
@@ -32,15 +32,12 @@ export default function CreateListing({ open, onClose }) {
         // physical only
         condition: "",
         images: [],
-
-        // service only
-        // nothing yet
     };
 
     const [newListing, setNewListing] = useState(initialListing);
 
     const [step, setStep] = useState(1);
-    const totalSteps = newListing.type === "physical" ? 6 : 5;
+    const totalSteps = 5;
 
     //prevent background scrolling
     useEffect(() => {
@@ -106,23 +103,13 @@ export default function CreateListing({ open, onClose }) {
     if (!open) return null;
 
     //steps
-    const stepNames = 
-        newListing.type === "physical"
-            ? [
-                "Type",
-                "Basic info",
-                "School info",
-                "Tags & Contact",
-                "Images",
-                "Review & submit"
-            ]
-            : [
-                "Type",
-                "Basic info",
-                "School info",
-                "Tags & Contact",
-                "Review & submit"
-            ]
+    const stepNames = [
+        "Basic info",
+        "School info",
+        "Tags & Contact",
+        "Images",
+        "Review & submit"
+    ]
 
     //updating listing logic
     const updateListing = (field, value) => {
@@ -134,36 +121,11 @@ export default function CreateListing({ open, onClose }) {
         setHasInfo(true);
     }
 
-    const changeListingType = (type) => {
-        setNewListing((prev) => ({
-            ...prev,
-            type
-        }));
-
-        setHasInfo(true);
-        setError("");
-
-        //if user switches while having step more than 4
-        if (
-            type === "service" &&
-            step > 4
-        ) {
-            setStep(4);
-        }
-    };
-
     const checkStep = (checkingStep = step) => {
         setError("");
         setShowError(false);
 
         if (checkingStep === 1) {
-            if (newListing.type !== "physical" && newListing.type !== "service") {
-                showErrorMsg("Please Select a listing type.");
-                return false;
-            }
-        }
-
-        if (checkingStep === 2) {
             const title = newListing.title.trim();
             const description = newListing.description.trim();
             const price = newListing.price;
@@ -208,40 +170,40 @@ export default function CreateListing({ open, onClose }) {
                 return false;
             }
 
-            if (newListing.type === "physical" && newListing.condition === "") {
-                showErrorMsg("Please Select the item's condition.");
+            if (newListing.condition === "") {
+                showErrorMsg("Select the item's condition.");
                 return false;
             }
         }
 
-        if (checkingStep === 3) {
+        if (checkingStep === 2) {
             //make logic for setting school, type of school, etc.
             if (newListing.schoolSystem.trim() === "") {
                 showErrorMsg("Select a school system.");
                 return false;
             }
             if (newListing.school.trim() === "") {
-                showErrorMsg("Please Select a school.");
+                showErrorMsg("Select a school.");
                 return false;
             }
             if (newListing.school === "Other" && newListing.otherSchool.trim() === "") {
-                showErrorMsg("Please enter the other school name.");
+                showErrorMsg("Enter the other school name.");
                 return false;
             }
             if (newListing.schoolClass === "") {
-                showErrorMsg("Please Select a class.");
+                showErrorMsg("Select a class.");
                 return false;
             }
         }
 
-        if (checkingStep === 4) {
+        if (checkingStep === 3) {
             if (newListing.tags.length > 60) {
                 showErrorMsg("Tags too long.");
                 return false;
             }
         }
 
-        if (checkingStep === 5 && newListing.type === "physical") {
+        if (checkingStep === 4) {
             const images = newListing.images.filter(
                 (image) =>
                     image instanceof File &&
@@ -358,27 +320,25 @@ export default function CreateListing({ open, onClose }) {
             //but why not have parallel uploads so its faster. speeeeed
             let imageUrls = [];
 
-            if (newListing.type === "physical") {
-                const images = newListing.images.filter(
-                    image => image instanceof File && image.size > 0
+            const images = newListing.images.filter(
+                image => image instanceof File && image.size > 0
+            );
+
+            try {
+                const uploadPromises = images.map(image =>
+                    Server.uploadImage(image)
                 );
 
-                try {
-                    const uploadPromises = images.map(image =>
-                        Server.uploadImage(image)
-                    );
+                const results = await Promise.all(uploadPromises);
+                imageUrls = results.map(result => result.image_url);
 
-                    const results = await Promise.all(uploadPromises);
-                    imageUrls = results.map(result => result.image_url);
-
-                    console.log(imageUrls);
-                } catch (err) {
-                    console.error(err);
-                    setError(`Failed to upload one or more images: ${err}`);
-                    setShowError(true);
-                    setIsSubmitted(false);
-                    return;
-                }
+                console.log(imageUrls);
+            } catch (err) {
+                console.error(err);
+                setError(`Failed to upload one or more images: ${err}`);
+                setShowError(true);
+                setIsSubmitted(false);
+                return;
             }
 
             
@@ -391,7 +351,7 @@ export default function CreateListing({ open, onClose }) {
                 const sellerPhone = newListing.includePhone ? userData.phone : null;
 
                 const toSend = {
-                    is_physical: newListing.type === "physical",
+                    //is_physical: newListing.type === "physical",
 
                     title: newListing.title.trim(),
                     description: newListing.description.trim(),
@@ -414,9 +374,7 @@ export default function CreateListing({ open, onClose }) {
                         : null,
                     school_class: newListing.schoolClass || null,
 
-                    condition: newListing.type === "physical"
-                        ? (newListing.condition || null)
-                        : null
+                    condition: newListing.condition
                 };
 
                 console.log("creating lising: ", toSend);
@@ -439,7 +397,7 @@ export default function CreateListing({ open, onClose }) {
                 window.location.reload();
             } catch (err) {
                 console.error("listing creation failed", err);
-                setError(`Failed to create listing. ${err}. Please try again.`);
+                setError(`Failed to create listing. ${err}. Try again.`);
                 setShowError(true);
                 setIsSubmitted(false);
             }
@@ -489,65 +447,6 @@ export default function CreateListing({ open, onClose }) {
 
                 <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                     {step === 1 && (
-                        <div className="form-item flex flex-col">
-                            <h1 className="text-xl mb-4">What type of listing is it?&nbsp;<span className="text-red-600">*</span></h1>
-
-                            <label
-                                htmlFor="physical"
-                                className={`flex cursor-pointer items-center gap-3 rounded-lg border p-4 mb-3 transition ${
-                                    newListing.type === "physical"
-                                        ? "border-red-500 bg-red-50 dark:bg-red-950/20"
-                                        : "border-gray-200 dark:border-gray-700"
-                                }`}
-                            >
-                                <Radio
-                                    color="red"
-                                    id="physical"
-                                    className=""
-                                    name="type"
-                                    value="physical"
-                                    checked={newListing.type === "physical"}
-                                    onChange={() => changeListingType("physical")}
-                                />
-                                <div>
-                                    <Label htmlFor="physical" className="cursor-pointer font-semibold">
-                                        Physical item
-                                    </Label>
-                                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                                        Sell physical items such as books and other school materials.
-                                    </p>
-                                </div>
-                            </label>
-
-                            <label
-                                htmlFor="service"
-                                className={`flex cursor-pointer items-center gap-3 rounded-lg border p-4 transition ${
-                                    newListing.type === "service"
-                                        ? "border-red-500 bg-red-50 dark:bg-red-950/20"
-                                        : "border-gray-200 dark:border-gray-700"
-                                }`}
-                            >
-                                <Radio
-                                    color="red"
-                                    id="service"
-                                    name="type"
-                                    value="service"
-                                    checked={newListing.type === "service"}
-                                    onChange={() => changeListingType("service")}
-                                />
-                                <div>
-                                    <Label htmlFor="service" className="cursor-pointer font-semibold">
-                                        Service
-                                    </Label>
-                                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                                        Offer a service such as tutoring, homework help, etc.
-                                    </p>
-                                </div>
-                            </label>
-                        </div>
-                    )}
-
-                    {step === 2 && (
                         <>
                             <div className="form-item">
                                 <div className="mb block">
@@ -557,7 +456,7 @@ export default function CreateListing({ open, onClose }) {
                                     id="title"
                                     name="title"
                                     type="text"
-                                    placeholder={newListing.type === "physical" ? "Maths IGCSE book" : "Tutoring"}
+                                    placeholder="Maths IGCSE book"
                                     required
                                     shadow
                                     value={newListing.title}
@@ -609,7 +508,7 @@ export default function CreateListing({ open, onClose }) {
                                     id="description"
                                     name="description"
                                     rows={4}
-                                    placeholder={newListing.type === "physical" ? "Used, in good condition..." : "Describe the service you offer..."}
+                                    placeholder="Used, in good condition..."
                                     required
                                     shadow
                                     value={newListing.description}
@@ -618,39 +517,35 @@ export default function CreateListing({ open, onClose }) {
                                 />
                                 <div className="flex justify-between">
                                     <HelperText>
-                                        {newListing.type === "physical"
-                                            ? "Try to include things like, in case of a book, how used it is. Aim to write multiple lines."
-                                            : "Describe, if applicable, the duration, location and any other details of service."}
+                                        Try to include things like, in case of a book, how used it is. Aim to write multiple lines.
                                     </HelperText>
                                     <p className={newListing.description.length > 2000 ? "text-red-600 text-sm" : "text-gray-500 text-sm"}>{newListing.description.length}/2000</p>
                                 </div>
                             </div>
 
-                            {newListing.type === "physical" && (
-                                <div>
-                                    <div className="mb block">
-                                        <Label htmlFor="condition">Condition:&nbsp;<span className="text-red-600">*</span></Label>
-                                    </div>
-                                    <Select
-                                        id="condition"
-                                        name="condition"
-                                        value={newListing.condition}
-                                        onChange={(e) => updateListing("condition", e.target.value)}
-                                        className=""
-                                    >
-                                        <option value="">-- Select condition --</option>
-                                        <option value="New">New</option>
-                                        <option value="Like new">Like new</option>
-                                        <option value="Good">Good</option>
-                                        <option value="Used">Used</option>
-                                        <option value="Poor">Bad</option>
-                                    </Select>
+                            <div>
+                                <div className="mb block">
+                                    <Label htmlFor="condition">Condition:&nbsp;<span className="text-red-600">*</span></Label>
                                 </div>
-                            )}
+                                <Select
+                                    id="condition"
+                                    name="condition"
+                                    value={newListing.condition}
+                                    onChange={(e) => updateListing("condition", e.target.value)}
+                                    className=""
+                                >
+                                    <option value="">-- Select condition --</option>
+                                    <option value="New">New</option>
+                                    <option value="Like new">Like new</option>
+                                    <option value="Good">Good</option>
+                                    <option value="Used">Used</option>
+                                    <option value="Poor">Bad</option>
+                                </Select>
+                            </div>
                         </>
                     )}
 
-                    {step === 3 && (
+                    {step === 2 && (
                         <div className="form-item flex flex-col gap-4">
                             <div>
                                 <div className="mb block">
@@ -750,7 +645,7 @@ export default function CreateListing({ open, onClose }) {
                         </div>
                     )}
 
-                    {step === 4 && (
+                    {step === 3 && (
                         <>
                             <div className="form-item">
                                 <div className="mb block">
@@ -799,7 +694,7 @@ export default function CreateListing({ open, onClose }) {
                         </>
                     )}
 
-                    {step === 5 && newListing.type === "physical" && (
+                    {step === 4 && (
                         <div className="form-item">
                             <div id="images-upload">
                                 <Label htmlFor="images" className="mb block">Upload images</Label>
@@ -823,11 +718,6 @@ export default function CreateListing({ open, onClose }) {
                             <h1 className="text-xl mb-1">Review & submit</h1>
 
                             <div className="rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-                                <p className="text-sm text-gray-500">Type</p>
-                                <p className="font-medium mb-4">
-                                    {newListing.type === "physical" ? "Physical item" : "Service"}
-                                </p>
-
                                 <p className="text-sm text-gray-500">Title</p>
                                 <p className="font-medium mb-4 break-words">{newListing.title}</p>
 
@@ -839,15 +729,11 @@ export default function CreateListing({ open, onClose }) {
                                 <p className="text-sm text-gray-500">Description</p>
                                 <p className="whitespace-pre-wrap mb-4 break-words">{newListing.description}</p>
 
-                                {newListing.type === "physical" && (
-                                    <>
-                                        <p className="text-sm text-gray-500">Condition</p>
-                                        <p className="font-medium mb-4">{newListing.condition}</p>
+                                <p className="text-sm text-gray-500">Condition</p>
+                                <p className="font-medium mb-4">{newListing.condition}</p>
 
-                                        <p className="text-sm text-gray-500">Images</p>
-                                        <p className="font-medium mb-4">{newListing.images.length} given</p>
-                                    </>
-                                )}
+                                <p className="text-sm text-gray-500">Images</p>
+                                <p className="font-medium mb-4">{newListing.images.length} given</p>
 
                                 <p className="text-sm text-gray-500">School system</p>
                                 <p className="font-medium mb-4">{newListing.schoolSystem}</p>

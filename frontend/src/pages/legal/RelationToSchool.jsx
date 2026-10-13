@@ -13,7 +13,7 @@ export default function RelationToSchool() {
                     <div className="flex flex-col gap-8 md:px-10 max-w-300">
                         <div className="text-left">
                             <p className="text-xl mb-8">
-                                School Market (SM) is a platform made to help members of schools to buy/sell/trade goods and services.
+                                School Market (SM) is a platform made to help members of schools to buy/sell/trade goods, mainly textbooks/books.
                             </p>
                             <p className="text-xl mb-8">
                                 SM is not owned, operated, sponsored, or affiliated with any school.

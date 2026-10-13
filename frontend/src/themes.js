@@ -122,7 +122,7 @@ export const lightTheme = createTheme({
     */
     drawer: {
         root: {
-            base: "",
+            base: "z-10000",
         }
     },
     checkbox: {

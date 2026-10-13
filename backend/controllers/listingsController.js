@@ -15,7 +15,6 @@ const createListing_post = async (req, res) => {
             images,
             phone_show,
             email_show,
-            is_physical,
             negotiable,
             school_system,
             school,
@@ -26,7 +25,7 @@ const createListing_post = async (req, res) => {
 
         if (seller_id !== req.userId) return res.status(400).json({ error: "you are not showing yourself for who you are" });
 
-        if ((title === undefined) || (price === undefined) || (seller_id === undefined) || (description === undefined) || (is_physical === undefined) || (tags === undefined)) return res.status(400).json({ message: "missing must have fields"});
+        if ((title === undefined) || (price === undefined) || (seller_id === undefined) || (description === undefined) || (tags === undefined)) return res.status(400).json({ message: "missing must have fields"});
 
         if (!school_system || !school || !school_class) {
             return res.status(400).json({
@@ -40,13 +39,11 @@ const createListing_post = async (req, res) => {
             });
         }
 
-        if (is_physical && (!condition || condition.trim().length === 0)) {
+        if (condition && condition.trim().length === 0) {
             return res.status(400).json({
-                error: "condition is required for physical listings"
+                error: "condition is required"
             });
         }
-        
-        const listingCondition = is_physical ? condition : null;
 
         const result = await Listings.create(
             title.trim(),
@@ -59,13 +56,12 @@ const createListing_post = async (req, res) => {
             images,
             phone_show,
             email_show,
-            is_physical,
             negotiable,
             school_system,
             school,
             school === "Other" ? other_school.trim() : null,
             school_class,
-            listingCondition
+            condition
         );
         console.log("listing created", result);
 

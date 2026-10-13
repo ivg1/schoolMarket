@@ -48,7 +48,7 @@ create table if not exists listings (
     email_show bool default true,
     phone_show bool default true,
 
-    is_physical bool default true,
+    --is_physical bool default true,
 
     school_system text,
     school text,
@@ -77,7 +77,7 @@ alter table listings
     add column if not exists email_show bool default true,
     add column if not exists phone_show bool default true,
 
-    add column if not exists is_physical bool default true,
+    --add column if not exists is_physical bool default true,
 
     add column if not exists school_system text,
     add column if not exists school text,

@@ -116,141 +116,75 @@ export default function DisplayListings({ onListingClick, profileId }) {
 				{listings.length > 0 ? (
 					listings.map((listing) => (
 						<div key={listing.id}>
-							{listing.is_physical ? (
-								<div className="listing-card relative min-h-fit hover:bg-white hover:cursor-pointer dark:hover:bg-[#151515] overflow-hidden" key={listing.id} listingid={listing.id}>
-									<div className="flex flex-col gap-2" onClick={() => { onListingClick?.(listing) }}>
-										{ !listing.awaiting_moderation && (
-											<a href={`/listings/${listing.id}`} className="no-underline m-0 p-0 w-full h-full absolute top-0 left-0 z-2"></a>
-										)}
-										<div className="listing-card-image-container">
-											{listing.awaiting_moderation ? (
-												<div className="m-2">
-													<h1 className="text-md font-bold mb-0">Physical Item</h1>
-													<div className="mb-2">
-														<h1 className="listing-card-title text-3xl font-bold text-left min-h-fit">{listing.title}</h1>
-													</div>
-												</div>
-											) : (
-												(() => {
-													const images = listing.images;
-													let src = "/placeholderListing.png";
-													if (Array.isArray(images) && images.length > 0) {
-														src = images[0];
-													} else if (typeof images === "string" && images.length > 0) {
-														const maybe = images.replace(/^\{|\}$/g, "").split(',')[0];
-														src = maybe;
-													} else {
-														return <div className="flex justify-center items-center w-full h-full">NO IMAGE</div>
-													}
-													return <img src={src} alt={listing.title} className="listing-card-image" />;
-												})()
-											)}
-										</div>
-										<div className="px-4 py-0 m-0 flex flex-col items-start min-h-20">
-											{listing.price === 0 ? (
-												<h1 className="listing-card-price text-2xl font-bold text-left">Free</h1>
-											) : (
-												<h1 className="listing-card-price text-2xl font-bold text-left">€{listing.price}</h1>
-											)}
-											<h1 className="listing-card-title font-bold text-left">{listing.title}</h1>
-											<p className="listing-card-date text-sm text-gray-500">{longAgo(listing.created_at)}</p>
-										</div>
-									</div>
-	
-									<HR className="m-0" />
-									<div className="flex gap-2 justify-end z-10 min-h-10">
-										{(yourId === Number(listing.seller_id) || mod || !listing.awaiting_moderation) ? (
-											<Button color="bgless" onClick={() => onListingClick?.(listing)}>View</Button>
-										) : (<></>)}
-									</div>
-	
-									{listing.awaiting_moderation && (
-										<>
-											{yourId === Number(listing.seller_id) || mod ? (
-												<a href={`/listings/${listing.id}`} className="no-underline m-0 p-0 w-full h-full absolute top-0 left-0 z-2"></a>
-											) : null}
-											<div className="absolute top-0 left-0 w-full h-full dark:bg-black/80 bg-black/20 overflow-hidden">
-												<div className="absolute top-1/2 left-[-30%] w-[160%] -rotate-40 bg-red-800 py-2 text-center tracking-widest">
-													<span className="font-bold text-white">
-														AWAITING MODERATION
-													</span>
-												</div>
-											</div>
-											{yourId === Number(listing.seller_id) && (
-												<div className="absolute top-[60%] left-[-25%] w-[160%] -rotate-40 text-center">
-													<span className="text-md rounded-2xl bg-white p-2 dark:bg-transparent">
-														(your listing)
-													</span>
-												</div>
-											)}
-										</>
+							<div className="listing-card relative min-h-fit hover:bg-white hover:cursor-pointer dark:hover:bg-[#151515] overflow-hidden" key={listing.id} listingid={listing.id}>
+								<div className="flex flex-col gap-2" onClick={() => { onListingClick?.(listing) }}>
+									{ !listing.awaiting_moderation && (
+										<a href={`/listings/${listing.id}`} className="no-underline m-0 p-0 w-full h-full absolute top-0 left-0 z-2"></a>
 									)}
-								</div>
-							) : (
-								<div className="listing-card relative min-h-fit hover:bg-white hover:cursor-pointer dark:hover:bg-[#151515] overflow-hidden" key={listing.id} listingid={listing.id}>
-									<div className="flex flex-col gap-2" onClick={() => { onListingClick?.(listing) }}>
-										{ !listing.awaiting_moderation && (
-											<a href={`/listings/${listing.id}`} className="no-underline m-0 p-0 w-full h-full absolute top-0 left-0 z-2"></a>
+									<div className="listing-card-image-container">
+										{listing.awaiting_moderation ? (
+											<div className="m-2">
+												<h1 className="text-md font-bold mb-0">Physical Item</h1>
+												<div className="mb-2">
+													<h1 className="listing-card-title text-3xl font-bold text-left min-h-fit">{listing.title}</h1>
+												</div>
+											</div>
+										) : (
+											(() => {
+												const images = listing.images;
+												let src = "/placeholderListing.png";
+												if (Array.isArray(images) && images.length > 0) {
+													src = images[0];
+												} else if (typeof images === "string" && images.length > 0) {
+													const maybe = images.replace(/^\{|\}$/g, "").split(',')[0];
+													src = maybe;
+												} else {
+													return <div className="flex justify-center items-center w-full h-full">NO IMAGE</div>
+												}
+												return <img src={src} alt={listing.title} className="listing-card-image" />;
+											})()
 										)}
-										<div className="listing-service-desc-container p-2">
-											<h1 className="text-md font-bold mb-0">Service</h1>
-											<div className="mb-2">
-												<h1 className="listing-card-title text-3xl font-bold text-left min-h-fit">{listing.title}</h1>
-											</div>
-											<div className="listing-service-desc">
-												{listing.awaiting_moderation ? (
-													<p className="whitespace-pre-wrap">description awaiting moderation</p>
-												) : (
-													<>
-														{listing.description ? (
-															<p className="whitespace-pre-wrap text-sm">{listing.description}</p>
-														) : (
-															<p className="whitespace-pre-wrap">no description provided</p>
-														)}
-													</>
-												)}
-											</div>
-										</div>
-										<div className="px-4 py-0 m-0 flex flex-col items-start min-h-20">
-											{listing.price === 0 ? (
-												<h1 className="listing-card-price text-2xl font-bold text-left">Free</h1>
-											) : (
-												<h1 className="listing-card-price text-2xl font-bold text-left">€{listing.price}</h1>
-											)}
-											<p className="listing-card-date text-sm text-gray-500">{longAgo(listing.created_at)}</p>
-										</div>
 									</div>
-	
-									<HR className="m-0" />
-									<div className="flex gap-2 justify-end z-10 min-h-10">
-										{(yourId === Number(listing.seller_id) || mod || !listing.awaiting_moderation) ? (
-											<Button color="bgless" onClick={() => onListingClick?.(listing)}>View</Button>
-										) : (<></>)}
+									<div className="px-4 py-0 m-0 flex flex-col items-start min-h-20">
+										{listing.price === 0 ? (
+											<h1 className="listing-card-price text-2xl font-bold text-left">Free</h1>
+										) : (
+											<h1 className="listing-card-price text-2xl font-bold text-left">€{listing.price}</h1>
+										)}
+										<h1 className="listing-card-title font-bold text-left">{listing.title}</h1>
+										<p className="listing-card-date text-sm text-gray-500">{longAgo(listing.created_at)}</p>
 									</div>
-	
-									{listing.awaiting_moderation && (
-										<>
-											{yourId === Number(listing.seller_id) || mod ? (
-												<a href={`/listings/${listing.id}`} className="no-underline m-0 p-0 w-full h-full absolute top-0 left-0 z-2"></a>
-											) : null}
-											<div className="absolute top-0 left-0 w-full h-full dark:bg-black/80 bg-black/20 overflow-hidden">
-												<div className="absolute top-1/2 left-[-30%] w-[160%] -rotate-40 bg-red-800 py-2 text-center tracking-widest">
-													<span className="font-bold text-white">
-														AWAITING MODERATION
-													</span>
-												</div>
-											</div>
-											{yourId === Number(listing.seller_id) && (
-												<div className="absolute top-[60%] left-[-25%] w-[160%] -rotate-40 text-center">
-													<span className="text-md rounded-2xl bg-white p-2 dark:bg-transparent">
-														(your listing)
-													</span>
-												</div>
-											)}
-										</>
-									)}
 								</div>
-							)}
+
+								<HR className="m-0" />
+								<div className="flex gap-2 justify-end z-10 min-h-10">
+									{(yourId === Number(listing.seller_id) || mod || !listing.awaiting_moderation) ? (
+										<Button color="bgless" onClick={() => onListingClick?.(listing)}>View</Button>
+									) : (<></>)}
+								</div>
+
+								{listing.awaiting_moderation && (
+									<>
+										{yourId === Number(listing.seller_id) || mod ? (
+											<a href={`/listings/${listing.id}`} className="no-underline m-0 p-0 w-full h-full absolute top-0 left-0 z-2"></a>
+										) : null}
+										<div className="absolute top-0 left-0 w-full h-full dark:bg-black/80 bg-black/20 overflow-hidden">
+											<div className="absolute top-1/2 left-[-30%] w-[160%] -rotate-40 bg-red-800 py-2 text-center tracking-widest">
+												<span className="font-bold text-white">
+													AWAITING MODERATION
+												</span>
+											</div>
+										</div>
+										{yourId === Number(listing.seller_id) && (
+											<div className="absolute top-[60%] left-[-25%] w-[160%] -rotate-40 text-center">
+												<span className="text-md rounded-2xl bg-white p-2 dark:bg-transparent">
+													(your listing)
+												</span>
+											</div>
+										)}
+									</>
+								)}
+							</div>
 						</div>
 					))
 				) : (

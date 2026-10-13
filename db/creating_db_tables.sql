@@ -31,7 +31,7 @@ create table if not exists listings (
     email_show bool default true,
     phone_show bool default true,
 
-    is_physical bool default true,
+    --is_physical bool default true,
 
     school_system text,
     school text,

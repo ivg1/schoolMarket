@@ -31,23 +31,6 @@
     overflow: hidden;
 }
 
-.listing-service-desc-container {
-    width: 280px;
-    height: 250px;
-    min-height: 200px;
-    border: 1px solid gray;
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.listing-service-desc {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 8;
-    line-clamp: 8;
-    overflow: hidden;
-}
-
 .listing-card-image {
   display: block;
   width: 100%;

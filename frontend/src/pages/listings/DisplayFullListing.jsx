@@ -283,28 +283,26 @@ export default function DisplayFullListing() {
 						</Button>
 					) : (<></>)}
 				</div>
-				<div className={formValues.is_physical ? "min-w-screen min-h-screen p-6 flex flex-col lg:grid lg:grid-cols-2 gap-2" : "min-w-screen min-h-screen p-6 flex flex-col gap-2"}>
-					{formValues.is_physical && (
-						<div className="min-w-full">
-							<div className="p-2 flex flex-col md:flex-row justify-start">
-								<div className="flex md:flex-col flex-row gap-2 md:mr-2 mt-2 md:mt-0 order-last md:order-first max-w-full overflow-x-scroll md:overflow-x-hidden max-h-screen scrollbar-thumb-black md:[direction:rtl] scrollbar-thin pl-1">
-									{images.length > 0 ? (
-										images.map((image) => (
-											<img className="w-15 h-15 aspect-square bg-gray-200 dark:bg-(--darksurface) rounded-lg hover:cursor-pointer opacity-80 hover:opacity-100" key={image} src={image} onClick={() => { setMainImage(image, this) }}/>
-										))
-									) : (
-										<div className="w-15 h-15 bg-gray-200 rounded-lg flex justify-center items-center dark:bg-(--darksurface)">kein<br/>images</div>
-									)}
-								</div>
+				<div className="min-w-screen min-h-screen p-6 flex flex-col lg:grid lg:grid-cols-2 gap-2">
+					<div className="min-w-full">
+						<div className="p-2 flex flex-col md:flex-row justify-start">
+							<div className="flex md:flex-col flex-row gap-2 md:mr-2 mt-2 md:mt-0 order-last md:order-first max-w-full overflow-x-scroll md:overflow-x-hidden max-h-screen scrollbar-thumb-black md:[direction:rtl] scrollbar-thin pl-1">
 								{images.length > 0 ? (
-									<img src={images[0]} className="main-image min-w-0 flex-1 aspect-square object-contain bg-white dark:bg-(--darksurface) rounded-lg" />
+									images.map((image) => (
+										<img className="w-15 h-15 aspect-square bg-gray-200 dark:bg-(--darksurface) rounded-lg hover:cursor-pointer opacity-80 hover:opacity-100" key={image} src={image} onClick={() => { setMainImage(image, this) }}/>
+									))
 								) : (
-									<div className="main-image min-w-0 flex-1 flex justify-center items-center aspect-square bg-white dark:bg-(--darksurface) rounded-lg">NO IMAGE</div>
+									<div className="w-15 h-15 bg-gray-200 rounded-lg flex justify-center items-center dark:bg-(--darksurface)">kein<br/>images</div>
 								)}
-								
 							</div>
+							{images.length > 0 ? (
+								<img src={images[0]} className="main-image min-w-0 flex-1 aspect-square object-contain bg-white dark:bg-(--darksurface) rounded-lg" />
+							) : (
+								<div className="main-image min-w-0 flex-1 flex justify-center items-center aspect-square bg-white dark:bg-(--darksurface) rounded-lg">NO IMAGE</div>
+							)}
+							
 						</div>
-					)}
+					</div>
 					<div className="max-w-full min-w-full wrap-break-word">
 						<div className="flex flex-col p-4">
 							<div>
@@ -315,7 +313,6 @@ export default function DisplayFullListing() {
 									<p className="text-md text-gray-400 mb-2">Editing some items is not allowed.</p>
 								)}
 								<div className="flex flex-col mb-6">
-									{!formValues.is_physical && (<h1 className="text-md font-bold mb-0">Service</h1>)}
 									{editing ? (
 										<>
 											<Label htmlFor="title">Title:</Label>
@@ -548,7 +545,7 @@ export default function DisplayFullListing() {
 								</>
 							)}
 							<div className="other mt-20">
-								<p className="text-[12px] text-gray-500">ID: {listing.id} | Created: {listing.created_at} | Seller ID: {listing.seller_id} | Physical: {String(listing.is_physical)}</p>
+								<p className="text-[12px] text-gray-500">ID: {listing.id} | Created: {listing.created_at} | Seller ID: {listing.seller_id}</p>
 							</div>
 						</div>
 					</div>

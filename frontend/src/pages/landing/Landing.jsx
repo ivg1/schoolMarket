@@ -90,7 +90,7 @@ export default function Landing() {
                                     Made by students,<br /> for students.
                                 </h5>
                             </div>
-                            <p className="min-h-22 font-normal text-gray-700 dark:text-gray-400">Made by a student to make finding and sharing resources & services easier for fellow students.</p>
+                            <p className="min-h-22 font-normal text-gray-700 dark:text-gray-400">Made by a student to make finding and sharing resources easier for fellow students.</p>
                         </Card>
                     </Animations.FloatUp4>
                     <Animations.FloatUp4 delay={0.15}>
@@ -111,7 +111,7 @@ export default function Landing() {
                                     Help others <br />paid or free.
                                 </h5>
                             </div>
-                            <p className="min-h-22 font-normal text-gray-700 dark:text-gray-400">Help other students from your school by offering books you no longer need, or provide services to them.</p>
+                            <p className="min-h-22 font-normal text-gray-700 dark:text-gray-400">Help other students from your school by offering books and other things you no longer need to them.</p>
                         </Card>
                     </Animations.FloatUp4>
                     <Animations.FloatUp4 delay={0.3}>
@@ -173,7 +173,7 @@ export default function Landing() {
                     <div className="steps-text-holder p-10 md:order-first order-first">
                         <Animations.FloatUp4>
                             <h2 className="text-3xl font-bold text-gray-900 dark:text-white p-2">2. Explore/Create listings.</h2>
-                            <p className="font-normal text-gray-700 dark:text-gray-400">Browse through existing listings or create your own to show your goods or services.</p>
+                            <p className="font-normal text-gray-700 dark:text-gray-400">Browse through existing listings or create your own to show your goods.</p>
                         </Animations.FloatUp4>
                     </div>
                     <div className="flex justify-center items-center w-full">
@@ -235,7 +235,7 @@ export default function Landing() {
                             <AccordionTitle>What can I list on this platform?</AccordionTitle>
                             <AccordionContent>
                                 <p className="mb-2 text-gray-500 dark:text-gray-400">
-                                    Literally anything that doesn't violate our terms of service is listable. The things can be both services (e.g. homework help or tutoring) and physical things (e.g. textbooks).
+                                    Literally anything that doesn't violate our terms of service is listable. The things can be physical things (e.g. textbooks).
                                 </p>
                             </AccordionContent>
                         </AccordionPanel>

@@ -14,11 +14,8 @@ const Filter = ({ setCategory, category }) => {
 						<DropdownItem onClick={() => setCategory("all")}>
 							All Categories
 						</DropdownItem>
-						<DropdownItem onClick={() => setCategory("physicals")}>
-							All physical goods
-						</DropdownItem>
-						<DropdownItem onClick={() => setCategory("services")}>
-							All services
+						<DropdownItem onClick={() => setCategory("all")}>
+							more coming soon
 						</DropdownItem>
 						{/*
 						<DropdownItem>

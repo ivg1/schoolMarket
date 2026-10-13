@@ -201,7 +201,7 @@ export default function SignupPage() {
                         <Button type="submit" color="red">Sign up</Button>
                     </form>
                     <div className="text-center flex justify-center text-sm my-4">
-                            <p>Have an account?</p>&nbsp;<Link to="/login" className="text-red-600 hover:underline">Login</Link>
+                            <p>Have an account?</p>&nbsp;<Link to={`/login?returnUrl=${encodeURIComponent(window.location.pathname)}`} className="text-red-600 hover:underline">Login</Link>
                     </div>
                 </div>
                 

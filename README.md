@@ -1,7 +1,7 @@
 # School Market
-A platform for students to buy/sell goods and services in your school's community.
+A platform for students to buy/sell books and other stuff in your school's community.
 
-I made this platform to make it easier for students to trade things in their school, such as textbooks. Reselling used books after a school year is sometimes difficult, so why not have a platform for your school, where these books are used, and have students who will need them next year find them? (I also added possibility for services)
+I made this platform to make it easier for students to trade things in their school, such as textbooks. Reselling used books after a school year is sometimes difficult, so why not have a platform for your school, where these books are used, and have students who will need them next year find them?
 
 *Project is still in development.*
 
@@ -48,43 +48,9 @@ For example:
 create database theheritagedb;
 ```
 
-#### 2. Run the query below.
-There is a folder called ```db``` in which you will find 2 files.
-The one we want is ```creating_db_tables.sql```:
-
-```sql
-create table users (
-	id integer generated always as identity primary key,
-	username text not null,
-	email text not null,
-	password_hash text not null,
-	phone text,
-	created_at timestamp default current_timestamp
-);
-
-create table listings (
-	id integer generated always as identity primary key,
-	title text not null,
-	description text,
-	price integer,
-	tags text[],
-	images text[],
-	seller_id integer references users(id),
-	seller_email text,
-	seller_phone text,
-	emailShow bool default false,
-	phoneShow bool default false,
-	created_at timestamp default current_timestamp,
-	visibility bool default true
-);
-
-create table stats (
-    id integer generated always as identity primary key,
-    total_listings_created bigint default 0
-);
-insert into stats (total_listings_created) values (0);
-```
-
+#### 2. Run the query to set up the tables.
+There is a folder called ```db``` in which you will find a couple files.
+The one we want is ```creating_db_tables.sql```.
 
 ### Setting up the backend server
 The backend server uses variables from the ```.env``` file. 
