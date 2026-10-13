@@ -123,7 +123,6 @@ export default function DisplayListings({ onListingClick, category }) {
 								<div className="listing-card-image-container">
 									{listing.awaiting_moderation ? (
 										<div className="m-2">
-											<h1 className="text-md font-bold mb-0">Physical Item</h1>
 											<div className="mb-2">
 												<h1 className="listing-card-title text-3xl font-bold text-left min-h-fit">{listing.title}</h1>
 											</div>
