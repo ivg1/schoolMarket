@@ -309,9 +309,6 @@ export default function DisplayFullListing() {
 								{editAccess && specialMessage !== "" && (
 									<p className="whitespace-pre-wrap text-red-600 mb-2">{specialMessage}</p>
 								)}
-								{editing && (
-									<p className="text-md text-gray-400 mb-2">Editing some items is not allowed.</p>
-								)}
 								<div className="flex flex-col mb-6">
 									{editing ? (
 										<>
@@ -514,6 +511,12 @@ export default function DisplayFullListing() {
 									)}
 								</div>
 							</div>
+							{editing && (
+								<>
+									<p className="text-md text-gray-400 mb-1">Editing some items is not allowed.</p>
+									<p className="text-sm text-gray-400 mb-2">Modifying the title, description, email or phone (not visibility) will set your under moderation again if not already. Modifying other fields will not affect your listing status.</p>
+								</>
+							)}
 							{editAccess && (
 								<>
 									<HR className="my-2" />

@@ -122,7 +122,8 @@ export const lightTheme = createTheme({
     */
     drawer: {
         root: {
-            base: "z-10000",
+            base: "",
+            backdrop: "z-5000" //fix the entire layering stuff later... maybe... im lazy rn
         }
     },
     checkbox: {

@@ -44,12 +44,12 @@ const userLogin_post = async (req, res) => {
 const userSignup_post = async (req, res) => {
     try {
         const { 
-            username, 
-            email, 
-            password, 
-            phone,
             fname,
-            lname
+            lname,
+            username, 
+            password, 
+            email, 
+            phone
         } = req.body;
 
         //todo: make separate checks for username and email (for better feedback)

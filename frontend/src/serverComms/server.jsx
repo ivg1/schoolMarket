@@ -275,7 +275,10 @@ export const Server = {
                 body: JSON.stringify(body)
             });
             
-            if (!response.ok) throw new Error("SIGNUP FAILED");
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error || error.message || "failed signing up user");
+            }
             return await response.json();
         },
         async login(body) {

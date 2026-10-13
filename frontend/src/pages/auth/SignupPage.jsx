@@ -16,49 +16,106 @@ export default function SignupPage() {
 
     const [shown, setShown] = useState(false);
 
+    const [form, setForm] = useState({
+        fname: "",
+        lname: "",
+        username: "",
+        email: "",
+        password: "",
+        passwordRepeat: "",
+        phone: "",
+        agree: false
+    });
+
     const returnUrl = new URLSearchParams(window.location.search).get("returnUrl") || "/";
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const formData = new FormData(e.target);
-        const values = Object.fromEntries(formData.entries());
-        console.log(values);
+        //const formData = new FormData(e.target);
+        //const values = Object.fromEntries(formData.entries());
+        //console.log(values);
 
-        if (values.password !== values["password-repeat"]) {
-            console.error("passwords do not match");
+        console.log(form);
+
+        if (form.fname.length > 20) {
+            console.error("First name too long.");
+            setError("First name too long (max. 20char).");
+            setShowError(true);
+            return;
+        }
+        if (form.lname.length > 20) {
+            console.error("Last name too long.");
+            setError("Last name too long (max. 20char).");
+            setShowError(true);
+            return;
+        }
+        if (form.username.length > 20) {
+            console.error("Username too long.");
+            setError("Username too long (max. 20char).");
+            setShowError(true);
+            return;
+        }
+        if (form.username.split(" ").length > 1) {
+            console.error("Username cannot contain spaces.");
+            setError("Username cannot contain spaces.");
+            setShowError(true);
+            return;
+        }
+        if (form.email.length > 40) {
+            console.error("Email too long.");
+            setError("Email too long (max. 40char).");
+            setShowError(true);
+            return;
+        }
+        if (form.email.split(" ").length > 1) {
+            console.error("Email cannot contain spaces.");
+            setError("Email cannot contain spaces.");
+            setShowError(true);
+            return;
+        }
+
+        if (form.password !== form.passwordRepeat) {
+            console.error("Passwords do not match");
             setError("Passwords do not match.");
             setShowError(true);
             return;
         }
-        if (formData.get("agree") !== "on") {
-            console.error("user didnt agree to terms");
+        if (form.agree !== true) {
+            console.error("User didnt agree to terms");
             setError("Didnt agree to terms & conditions.");
             setShowError(true);
             return;
         }
 
         //password validation
-        if (values.password.length < 8) {
-            console.error("password must be 8 or more characters");
+        if (form.password.length < 8) {
+            console.error("Password must be 8 or more characters");
             setError("Password must be 8 or more characters.");
             setShowError(true);
             return;
         }
         let characters = /[!@#$%^&*\/+\-_.?]/;
-        if (!characters.test(values.password)) {
-            console.error("password must include at least 1 symbol");
+        if (!characters.test(form.password)) {
+            console.error("Password must include at least 1 symbol");
             setError("Password must include at least 1 symbol (!,@,#,$,%,^,&,*,/,+,-).");
             setShowError(true);
             return;
         }
 
         //phone validation
-        const phone = values.phone?.trim();
+        const phone = form.phone?.trim();
         if (phone) {
             const phoneRegex = /^\+?[1-9]\d{7,14}$/;
 
             const normalized = phone.replace(/[\s()-]/g, "");
+
+            if (phone.length > 20) {
+                console.error("Phone number is too long");
+                setError("Phone number is too long.");
+                setShowError(true);
+                return;
+            }
 
             if (!phoneRegex.test(normalized)) {
                 console.error("Phone number is invalid");
@@ -68,40 +125,13 @@ export default function SignupPage() {
             }
         }
 
-        if (values.fname.length > 20) {
-            console.error("First name too long.");
-            setError("First name too long (max. 20char).");
-            setShowError(true);
-            return;
-        }
-        if (values.lname.length > 20) {
-            console.error("Last name too long.");
-            setError("Last name too long (max. 20char).");
-            setShowError(true);
-            return;
-        }
-        if (values.username.length > 20) {
-            console.error("Username too long.");
-            setError("Username too long (max. 20char).");
-            setShowError(true);
-            return;
-        }
-        if (values.email.length > 40) {
-            console.error("Email too long.");
-            setError("Email too long (max. 40char).");
-            setShowError(true);
-            return;
-        }
-
-        
-
         const toSend = {
-            username: values.username,
-            email: values.email,
-            password: values.password.trim(),
-            phone: values.phone,
-            fname: values.fname,
-            lname: values.lname,
+            fname: form.fname.trim(),
+            lname: form.lname.trim(),
+            username: form.username.trim(),
+            password: form.password.trim(),
+            email: form.email.trim(),
+            phone: form.phone.trim(),
         };
 
         try {
@@ -110,7 +140,7 @@ export default function SignupPage() {
             navigate("/login?returnUrl=" + encodeURIComponent(returnUrl));
         } catch (err) {
             console.error("signup failed", err);
-            setError("User already exists with that username or email.");
+            setError("User already exists with that username or email. Try again.");
             setShowError(true);
         }
     };
@@ -124,41 +154,47 @@ export default function SignupPage() {
                     </div>
                     <form className="flex min-w-full flex-col gap-4" id="register-form" onSubmit={handleSubmit}>
                         <div className="form-item">
-                            <div className="mb-2 block">
+                            <div className="mb-2 block justify-between flex items-center">
                                 <Label htmlFor="fname">First name:&nbsp;<span className="text-red-600">*</span></Label>
+                                <p className={form.fname.length > 20 ? "text-red-600 text-sm" : "text-gray-500 text-sm"}>{form.fname.length}/20</p>
                             </div>
-                            <TextInput id="fname" name="fname" type="text" placeholder="John" required shadow />
+                            <TextInput id="fname" name="fname" type="text" placeholder="John" required shadow value={form.fname} onChange={(e) => setForm({...form, fname: e.target.value})} />
                         </div>
                         <div className="form-item">
-                            <div className="mb-2 block">
+                            <div className="mb-2 block justify-between flex items-center">
                                 <Label htmlFor="lname">Last name:&nbsp;<span className="text-red-600">*</span></Label>
+                                <p className={form.lname.length > 20 ? "text-red-600 text-sm" : "text-gray-500 text-sm"}>{form.lname.length}/20</p>
                             </div>
-                            <TextInput id="lname" name="lname" type="text" placeholder="Doe" required shadow />
+                            <TextInput id="lname" name="lname" type="text" placeholder="Doe" required shadow value={form.lname} onChange={(e) => setForm({...form, lname: e.target.value})} />
                         </div>
                         <div className="form-item">
-                            <div className="mb-2 block">
+                            <div className="mb-2 block justify-between flex items-center">
                                 <Label htmlFor="username">Username:&nbsp;<span className="text-red-600">*</span></Label>
+                                <p className={form.username.length > 20 ? "text-red-600 text-sm" : "text-gray-500 text-sm"}>{form.username.length}/20</p>
                             </div>
-                            <TextInput id="username" name="username" type="text" placeholder="user1234" required shadow />
+                            <TextInput id="username" name="username" type="text" placeholder="user1234" required shadow value={form.username} onChange={(e) => setForm({...form, username: e.target.value.trim()})} />
                         </div>
                         <div className="form-item">
-                            <div className="mb-2 block">
+                            <div className="mb-2 block justify-between flex items-center">
                                 <Label htmlFor="email">Email:&nbsp;<span className="text-red-600">*</span></Label>
+                                <p className={form.email.length > 40 ? "text-red-600 text-sm" : "text-gray-500 text-sm"}>{form.email.length}/40</p>
                             </div>
-                            <TextInput id="email" name="email" type="email" placeholder="test@market.ivg1.dev" required shadow />
+                            <TextInput id="email" name="email" type="email" placeholder="test@market.ivg1.dev" required shadow value={form.email} onChange={(e) => setForm({...form, email: e.target.value.trim()})} />
                         </div>
                         <div className="form-item">
-                            <div className="mb-2 block">
+                            <div className="mb-2 block justify-between flex items-center">
                                 <Label htmlFor="phone">Phone number:&nbsp;<span className="text-gray-500">(optional)</span></Label>
+                                <p className={form.phone.length > 20 ? "text-red-600 text-sm" : "text-gray-500 text-sm"}>{form.phone.length}/20</p>
                             </div>
-                            <TextInput id="phone" name="phone" type="tel" placeholder="+123 45 67890" shadow />
+                            <TextInput id="phone" name="phone" type="tel" placeholder="+123 45 67890" shadow value={form.phone} onChange={(e) => setForm({...form, phone: e.target.value})} />
                         </div>
                         <div className="form-item">
-                            <div className="mb-2 block">
+                            <div className="mb-2 block justify-between flex items-center">
                                 <Label htmlFor="password">Password:&nbsp;<span className="text-red-600">*</span></Label>
+                                <p className={form.password.length < 8 || form.password.length > 40 ? "text-red-600 text-sm" : "text-gray-500 text-sm"}>{form.password.length}/40</p>
                             </div>
                             <div className="relative">
-                                <TextInput id="password" name="password" type={shown ? "text" : "password"} placeholder="••••••••" required shadow />
+                                <TextInput id="password" name="password" type={shown ? "text" : "password"} placeholder="••••••••" required shadow value={form.password} onChange={(e) => setForm({...form, password: e.target.value.trim()})} />
                                 <div onClick={() => shown ? setShown(false) : setShown(true)} className="absolute inset-y-0 right-2 flex items-center">
 									{shown ? (
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
@@ -175,18 +211,18 @@ export default function SignupPage() {
 								</div>
                             </div>
                             <ul className="list-disc px-4 mt-2 text-gray-400 text-sm">
-                                <li>Must be 8 or more characters</li>
+                                <li>Must be 8 or more characters (max. 40)</li>
                                 <li>Must include a symbol (!,@,#,$,%,^,&,*,/,+,-)</li>
                             </ul>
                         </div>
                         <div className="form-item">
                             <div className="mb-2 block">
-                                <Label htmlFor="password-repeat">Repeat password:&nbsp;<span className="text-red-600">*</span></Label>
+                                <Label htmlFor="passwordRepeat">Repeat password:&nbsp;<span className="text-red-600">*</span></Label>
                             </div>
-                            <TextInput id="password-repeat" name="password-repeat" type="password" placeholder="••••••••" required shadow />
+                            <TextInput id="passwordRepeat" name="passwordRepeat" type="password" placeholder="••••••••" required shadow value={form.passwordRepeat} onChange={(e) => setForm({...form, passwordRepeat: e.target.value})} />
                         </div>
                         <div className="flex items-center gap-2">
-                            <Checkbox id="agree" name="agree" color="red" />
+                            <Checkbox id="agree" name="agree" color="red" value={form.agree} onChange={(e) => setForm({...form, agree: e.target.checked})} />
                             <Label htmlFor="agree" className="flex items-center">
                                 I agree with the&nbsp;
                                 <Link to="/legal/terms-of-service" target="_blank" className="text-red-600 hover:underline">
@@ -201,7 +237,7 @@ export default function SignupPage() {
                         <Button type="submit" color="red">Sign up</Button>
                     </form>
                     <div className="text-center flex justify-center text-sm my-4">
-                            <p>Have an account?</p>&nbsp;<Link to={`/login?returnUrl=${encodeURIComponent(window.location.pathname)}`} className="text-red-600 hover:underline">Login</Link>
+                        <p>Have an account?</p>&nbsp;<Link to={`/login?returnUrl=${encodeURIComponent(returnUrl)}`} className="text-red-600 hover:underline">Login</Link>
                     </div>
                 </div>
                 
