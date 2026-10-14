@@ -2,6 +2,13 @@ const Listings = require("../db/listings");
 const Users = require("../db/users");
 const Stats = require("../db/stats");
 
+const LISTINGS_PER_PAGE = 4;
+
+function getSafePage(rawPage) {
+    const page = Number.parseInt(rawPage, 10);
+    return Number.isNaN(page) || page < 1 ? 1 : page;
+}
+
 const createListing_post = async (req, res) => {
     try {
         const {
@@ -146,11 +153,23 @@ const updateListing_post = async (req, res) => {
 
 const getListingsHeroData_get = async (req, res) => {
     try {
-        const rows = await Listings.data.getHeroAll();
+        const page = getSafePage(req.query.page);
+        const { rows, total } = await Listings.data.getHeroAll(page, LISTINGS_PER_PAGE);
+        const totalPages = Math.max(1, Math.ceil(total / LISTINGS_PER_PAGE));
 
         console.log("hero data of all listings retrieved");
 
-        return res.status(200).json(rows);
+        return res.status(200).json({
+            listings: rows,
+            pagination: {
+                page,
+                pageSize: LISTINGS_PER_PAGE,
+                total,
+                totalPages,
+                hasNext: page < totalPages,
+                hasPrev: page > 1
+            }
+        });
     } catch (err) {
         console.error(err);
         console.error("error getting hero data of listings");
@@ -160,12 +179,24 @@ const getListingsHeroData_get = async (req, res) => {
 
 const getListingsHeroDataByUser_post = async (req, res) => {
     try {
-        const { id } = req.body;
-        const rows = await Listings.data.getHeroAllByUser(id);
+        const { id, page: rawPage } = req.body;
+        const page = getSafePage(rawPage);
+        const { rows, total } = await Listings.data.getHeroAllByUser(id, page, LISTINGS_PER_PAGE);
+        const totalPages = Math.max(1, Math.ceil(total / LISTINGS_PER_PAGE));
 
         console.log("hero data of all listings retrieved");
 
-        return res.status(201).json(rows);
+        return res.status(200).json({
+            listings: rows,
+            pagination: {
+                page,
+                pageSize: LISTINGS_PER_PAGE,
+                total,
+                totalPages,
+                hasNext: page < totalPages,
+                hasPrev: page > 1
+            }
+        });
     } catch (err) {
         console.error(err);
         console.error("error getting hero data of listings by user id");

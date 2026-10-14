@@ -1,9 +1,15 @@
 const { pool } = require("./db.js");
 
+const MAX_PAGE_SIZE = 4;
+
 const Listings = {
     data: {
-        async getHeroAll() {
+        async getHeroAll(page = 1, limit = MAX_PAGE_SIZE) {
             try {
+                const safePage = Math.max(1, Number.parseInt(page, 10) || 1);
+                const safeLimit = Math.max(1, Math.min(MAX_PAGE_SIZE, Number.parseInt(limit, 10) || MAX_PAGE_SIZE));
+                const offset = (safePage - 1) * safeLimit;
+
                 const result = await pool.query(`
                     SELECT
                         id,
@@ -63,17 +69,32 @@ const Listings = {
                     ORDER BY
                         awaiting_moderation ASC,
                         created_at DESC
+                    LIMIT $1
+                    OFFSET $2
+                `, [safeLimit, offset]);
+
+                const totalResult = await pool.query(`
+                    SELECT COUNT(*) AS count
+                    FROM listings
+                    WHERE visibility = true
                 `);
                 //      ^ pg puts false first
 
-                return result.rows;
+                return {
+                    rows: result.rows,
+                    total: Number(totalResult.rows[0].count)
+                };
             } catch (err) {
                 console.error("error in listings db data.getHeroAll()", err);
                 throw err;
             }
         },
-        async getHeroAllByUser(id) {
+        async getHeroAllByUser(id, page = 1, limit = MAX_PAGE_SIZE) {
             try {
+                const safePage = Math.max(1, Number.parseInt(page, 10) || 1);
+                const safeLimit = Math.max(1, Math.min(MAX_PAGE_SIZE, Number.parseInt(limit, 10) || MAX_PAGE_SIZE));
+                const offset = (safePage - 1) * safeLimit;
+
                 const result = await pool.query(`
             SELECT
                 id,
@@ -135,9 +156,22 @@ const Listings = {
             ORDER BY
                 awaiting_moderation ASC,
                 created_at DESC
-        `, [id]);
+            LIMIT $2
+            OFFSET $3
+        `, [id, safeLimit, offset]);
 
-                return result.rows;
+                const totalResult = await pool.query(`
+                    SELECT COUNT(*) AS count
+                    FROM listings
+                    WHERE
+                        visibility = true
+                        AND seller_id = $1
+                `, [id]);
+
+                return {
+                    rows: result.rows,
+                    total: Number(totalResult.rows[0].count)
+                };
             } catch (err) {
                 console.error("error in listings db data.getHeroAllByUser()", err);
                 throw err;

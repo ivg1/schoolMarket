@@ -9,8 +9,9 @@ export const Server = {
             const response = await fetch(`${this.modUrl}/read?id=${encodeURIComponent(id)}`);
             return await response.json();
         },
-        async getAll() {
-            const response = await fetch(`${this.modUrl}/getAll`);
+        async getAll(params = {}) {
+            const page = Number.parseInt(params.page, 10) || 1;
+            const response = await fetch(`${this.modUrl}/getAll?page=${encodeURIComponent(page)}`);
             const result = await response.json();
             console.log(result);
             return result;
@@ -20,15 +21,19 @@ export const Server = {
             const result = await response.json();
             return result;
         },
-        async getAllByUser(body) {
+        async getAllByUser(body = {}) {
             const token = await Auth.getToken();
+            const payload = {
+                id: body.id,
+                page: Number.parseInt(body.page, 10) || 1
+            };
             const response = await fetch(`${this.modUrl}/getAllByUser`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "x-access-token": token
                 },
-                body: JSON.stringify(body ?? {})
+                body: JSON.stringify(payload)
             });
             const result = await response.json();
             console.log(result);
