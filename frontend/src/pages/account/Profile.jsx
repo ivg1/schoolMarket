@@ -296,7 +296,7 @@ export default function Profile() {
                         <div className="sm:border dark:border-(--darkborder) border-gray-300 rounded-2xl sm:p-4">
                             <h1 className="text-3xl font-bold mb-2 p-4 sm:p-0 min-w-0 break-words [overflow-wrap:anywhere]">{user.fname} {user.lname}'s current listings</h1>
                             <div className="flex">
-                                <div className="w-full flex justify-center">
+                                <div className="w-full flex flex-col">
                                     <DisplayListingsByUser 
                                         onListingClick={(listing) => {
                                             navigate(`/listings/${listing.id}`);

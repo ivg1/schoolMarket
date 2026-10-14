@@ -109,6 +109,7 @@ export default function DisplayListings({ onListingClick, category }) {
         }
     };
 
+    //to change later with making of filtering
     const filteredListings = category === "all" ? listings : listings;
 
     if (loading) return <p className="text-gray-500 text-center">Loading...</p>;
@@ -116,7 +117,7 @@ export default function DisplayListings({ onListingClick, category }) {
 
     return (
         <>
-        <div className="listing-list p-2 justify-items-center">
+        <div className="listing-list p-2 min-h-screen justify-items-center">
             {filteredListings.length > 0 ? (
                 <>
                     {filteredListings.map((listing) => (

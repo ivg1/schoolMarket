@@ -121,7 +121,8 @@ export default function DisplayListings({ onListingClick, profileId }) {
     if (error) return <p className="text-red-500 text-center">Error loading listings</p>;
 
     return (
-        <div className="listing-list min-w-full max-w-full sm:p-2 justify-items-center">
+        <>
+        <div className="listing-list p-2 justify-items-center">
             {listings.length > 0 ? (
                 <>
                     {listings.map((listing) => (
@@ -189,32 +190,32 @@ export default function DisplayListings({ onListingClick, profileId }) {
                             </div>
                         </div>
                     ))}
-
-                    <div className="mt-4 flex items-center gap-2">
-                        <button
-                            type="button"
-                            onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
-                            disabled={currentPage <= 1 || loading}
-                            className="rounded-md border border-gray-300 px-3 py-1 text-sm disabled:opacity-50 dark:border-gray-600"
-                        >
-                            Previous
-                        </button>
-                        <span className="text-sm text-gray-600 dark:text-gray-300">
-                            Page {currentPage} of {totalPages}
-                        </span>
-                        <button
-                            type="button"
-                            onClick={() => setCurrentPage((prev) => prev + 1)}
-                            disabled={currentPage >= totalPages || loading}
-                            className="rounded-md border border-gray-300 px-3 py-1 text-sm disabled:opacity-50 dark:border-gray-600"
-                        >
-                            Next
-                        </button>
-                    </div>
                 </>
             ) : (
                 <p className="text-gray-500 text-center">No listings found</p>
             )}
         </div>
+        <div className="mt-16 mb-4 flex justify-center items-center gap-2">
+            <button
+                type="button"
+                onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                disabled={currentPage <= 1 || loading}
+                className="rounded-md border border-gray-300 px-3 py-1 text-sm disabled:opacity-50 dark:border-gray-600"
+            >
+                Previous
+            </button>
+            <span className="text-sm text-gray-600 dark:text-gray-300">
+                Page {currentPage} of {totalPages}
+            </span>
+            <button
+                type="button"
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+                disabled={currentPage >= totalPages || loading}
+                className="rounded-md border border-gray-300 px-3 py-1 text-sm disabled:opacity-50 dark:border-gray-600"
+            >
+                Next
+            </button>
+        </div>
+        </>
     );
 }
