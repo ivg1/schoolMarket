@@ -3,6 +3,7 @@ const Users = require("../db/users");
 const Stats = require("../db/stats");
 
 const LISTINGS_PER_PAGE = 40;
+const USER_LISTINGS_PER_PAGE = 6;
 
 function getSafePage(rawPage) {
     const page = Number.parseInt(rawPage, 10);
@@ -181,8 +182,8 @@ const getListingsHeroDataByUser_post = async (req, res) => {
     try {
         const { id, page: rawPage } = req.body;
         const page = getSafePage(rawPage);
-        const { rows, total } = await Listings.data.getHeroAllByUser(id, page, LISTINGS_PER_PAGE);
-        const totalPages = Math.max(1, Math.ceil(total / LISTINGS_PER_PAGE));
+        const { rows, total } = await Listings.data.getHeroAllByUser(id, page, USER_LISTINGS_PER_PAGE);
+        const totalPages = Math.max(1, Math.ceil(total / USER_LISTINGS_PER_PAGE));
 
         console.log("hero data of all listings retrieved");
 
@@ -190,7 +191,7 @@ const getListingsHeroDataByUser_post = async (req, res) => {
             listings: rows,
             pagination: {
                 page,
-                pageSize: LISTINGS_PER_PAGE,
+                pageSize: USER_LISTINGS_PER_PAGE,
                 total,
                 totalPages,
                 hasNext: page < totalPages,
