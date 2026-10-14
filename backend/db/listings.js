@@ -1,6 +1,6 @@
 const { pool } = require("./db.js");
 
-const MAX_PAGE_SIZE = 4;
+const MAX_PAGE_SIZE = 40;
 
 const Listings = {
     data: {

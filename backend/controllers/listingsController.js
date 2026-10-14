@@ -2,7 +2,7 @@ const Listings = require("../db/listings");
 const Users = require("../db/users");
 const Stats = require("../db/stats");
 
-const LISTINGS_PER_PAGE = 4;
+const LISTINGS_PER_PAGE = 40;
 
 function getSafePage(rawPage) {
     const page = Number.parseInt(rawPage, 10);
