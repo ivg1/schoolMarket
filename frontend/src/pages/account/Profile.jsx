@@ -212,16 +212,16 @@ export default function Profile() {
             <div className="w-full max-w-screen min-h-200 rounded-2xl dark:border-(--darkbg)">
                 <div className="flex md:flex-row flex-col items-center justify-between p-6 ">
                     <div className="flex items-center">
-                        <div className="w-30 h-30 rounded-full overflow-hidden dark:border-(--darkborder) border border-gray-200">
+                        <div className="shrink-0 w-30 h-30 rounded-full overflow-hidden dark:border-(--darkborder) border border-gray-200">
                             <img
                                 src={user.profile_image !== null ? user.profile_image : "/placeholderProfile.png"}
                                 alt="Profile picture"
                                 className="w-full h-full object-cover"
                             />
                         </div>
-                        <div className="flex md:flex-row flex-col items-center ml-4 md:ml-0">
-                            <h1 className="text-4xl font-bold md:ml-4">{user.username}</h1>
-                            <p className="text-gray-500 md:ml-4">({user.fname} {user.lname})</p>
+                        <div className="flex md:flex-row flex-col items-center ml-4 md:ml-0 min-w-0 flex-1">
+                            <h1 className="text-4xl font-bold md:ml-4 min-w-0 break-words [overflow-wrap:anywhere]">{user.username}</h1>
+                            <p className="text-gray-500 md:ml-4 min-w-0 [overflow-wrap:anywhere]">({user.fname} {user.lname})</p>
                             <div className="md:ml-2">
                                 {user.is_admin ? (
                                     <p className="text-gray-500 text-center"><i>Administrator</i></p>
@@ -294,7 +294,7 @@ export default function Profile() {
                     </div>
                     <div className="py-4 sm:px-6">
                         <div className="sm:border dark:border-(--darkborder) border-gray-300 rounded-2xl sm:p-4">
-                            <h1 className="text-3xl font-bold mb-2 p-4 sm:p-0">{user.fname} {user.lname}'s current listings</h1>
+                            <h1 className="text-3xl font-bold mb-2 p-4 sm:p-0 min-w-0 break-words [overflow-wrap:anywhere]">{user.fname} {user.lname}'s current listings</h1>
                             <div className="flex">
                                 <div className="w-full flex justify-center">
                                     <DisplayListingsByUser 
