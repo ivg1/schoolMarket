@@ -36,6 +36,22 @@ export default function Profile() {
 	const id = Number(userId);
 
     useEffect(() => {
+        if (loading) {
+            document.title = "Loading profile | School Market";
+            return;
+        }
+
+        if (error && !showError) {
+            document.title = "Profile unavailable | School Market";
+            return;
+        }
+
+        if (user?.username) {
+            document.title = `${user.username} | School Market`;
+        }
+    }, [loading, error, showError, user]);
+
+    useEffect(() => {
         let mounted = true;
         setLoading(true);
 

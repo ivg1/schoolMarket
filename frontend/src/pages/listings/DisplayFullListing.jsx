@@ -24,6 +24,22 @@ export default function DisplayFullListing() {
 
 	const { listingId } = useParams();
 	const id = Number(listingId);
+
+	useEffect(() => {
+		if (loading) {
+			document.title = "Loading listing | School Market";
+			return;
+		}
+
+		if (loadingError) {
+			document.title = "Listing unavailable | School Market";
+			return;
+		}
+
+		if (listing?.title) {
+			document.title = `${listing.title} | School Market`;
+		}
+	}, [loading, loadingError, listing]);
 	
 	useEffect(() => {
 		let mounted = true;
