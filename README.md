@@ -34,7 +34,7 @@ cd schoolMarket
 #Install dependencies and start dev servers
 cd frontend
 npm install
-#If you get npm warn and error, run: rm package-lock.json (cus I have to on my server)
+#If you get npm warn and error, run: rm package-lock.json and run npm install again
 cd ../backend
 npm install
 ```
